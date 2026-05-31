@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eyad Selim · NOVA-1 · Independent Aerospace Research</title>
+<meta name="description" content="NOVA-1: a fully reusable heavy-lift launch vehicle architecture. Designed by Eyad Selim, 17, Cairo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=Fraunces:opsz,wght,SOFT@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg-deep:#0a0d12;--bg-panel:#11151c;--bg-card:#161b24;--bg-elevated:#1c2330;--grid:#1a212d;--line:#232b39;--line-bright:#2d3849;--text:#d8dee9;--text-bright:#fff;--dim:#6b7585;--dimmer:#4a5363;--amber:#ffaa33;--amber-soft:rgba(255,170,51,.12);--amber-glow:rgba(255,170,51,.25);--cyan:#4dd9ff;--cyan-soft:rgba(77,217,255,.10);--green:#5fe89c;--red:#ff5b5b;--warn:#ffd54a}
+html{scroll-behavior:smooth}
+body{background:var(--bg-deep);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-weight:400;line-height:1.6;font-size:15px;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.mono{font-family:'IBM Plex Mono','Courier New',monospace;font-feature-settings:"zero" 1}
+.bg-grid{position:fixed;inset:0;z-index:-3;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:64px 64px;opacity:.55;mask-image:radial-gradient(ellipse 90% 70% at 50% 30%,#000 30%,transparent 80%)}
+.bg-glow{position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(ellipse 60% 40% at 70% 20%,rgba(255,170,51,.08),transparent 70%),radial-gradient(ellipse 50% 60% at 20% 80%,rgba(77,217,255,.06),transparent 70%)}
+.bg-noise{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+.wrap-narrow{max-width:840px;margin:0 auto;padding:0 32px}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(16px);background:rgba(10,13,18,.78);border-bottom:1px solid var(--line);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px}
+.topbar-inner{display:flex;justify-content:space-between;align-items:center;padding:12px 32px;max-width:1180px;margin:0 auto}
+.topbar-id{display:flex;align-items:center;gap:12px;color:var(--dim)}
+.topbar-id .dot{width:6px;height:6px;background:var(--amber);border-radius:50%;box-shadow:0 0 8px var(--amber-glow);animation:blink 2.4s ease-in-out infinite}
+.topbar-id strong{color:var(--text-bright);font-weight:600;letter-spacing:1px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+.topbar-status{display:flex;gap:24px;color:var(--dim)}
+.topbar-status span strong{color:var(--amber);margin-left:6px;font-weight:500}
+header.hero{min-height:100vh;display:flex;align-items:center;position:relative;padding:80px 0 60px}
+.hero-meta{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:2.5px;color:var(--amber);text-transform:uppercase;margin-bottom:32px;display:flex;align-items:center;gap:14px}
+.hero-meta::before{content:'';width:28px;height:1px;background:var(--amber);box-shadow:0 0 6px var(--amber-glow)}
+h1.hero-title{font-family:'Fraunces',Georgia,serif;font-size:clamp(44px,7.5vw,92px);font-weight:300;font-variation-settings:'opsz' 144,'SOFT' 50;line-height:1.02;letter-spacing:-.025em;margin-bottom:36px;max-width:14ch}
+h1.hero-title em{font-style:italic;font-weight:400;color:var(--amber);font-variation-settings:'opsz' 144,'SOFT' 100}
+.hero-sub{font-size:18px;color:var(--text);max-width:640px;line-height:1.55;font-weight:400;margin-bottom:56px}
+.hero-sub .num{color:var(--amber);font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:17px}
+.hero-stack{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:24px;max-width:880px}
+.hero-stat{background:var(--bg-panel);padding:20px 24px;position:relative}
+.hero-stat-label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:10px}
+.hero-stat-value{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:500;color:var(--text-bright);letter-spacing:-.01em}
+.hero-stat-value .unit{font-size:13px;color:var(--dim);margin-left:4px;font-weight:400}
+section{padding:110px 0;position:relative;border-top:1px solid var(--line)}
+.section-tag{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--amber);text-transform:uppercase;margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.section-tag::before{content:'';width:14px;height:1px;background:var(--amber)}
+h2{font-family:'Fraunces',Georgia,serif;font-size:clamp(32px,4.6vw,52px);font-weight:400;font-variation-settings:'opsz' 144,'SOFT' 30;line-height:1.08;letter-spacing:-.022em;margin-bottom:36px;max-width:22ch}
+h2 em{font-style:italic;color:var(--amber);font-weight:400;font-variation-settings:'opsz' 144,'SOFT' 80}
+.lead{font-size:17px;color:var(--text);line-height:1.65;max-width:680px;margin-bottom:24px}
+.lead-dim{color:var(--dim)}
+.panel{background:linear-gradient(180deg,var(--bg-panel) 0%,var(--bg-deep) 100%);border:1px solid var(--line);position:relative;overflow:hidden}
+.panel::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--amber-glow),transparent)}
+.panel-header{display:flex;justify-content:space-between;align-items:center;padding:18px 28px;border-bottom:1px solid var(--line);background:rgba(0,0,0,.2);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px}
+.panel-header .id{color:var(--amber)}
+.panel-header .label{color:var(--dim);text-transform:uppercase}
+.panel-header .meta{color:var(--dimmer);font-size:10px}
+.dtable{width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;font-size:13px}
+.dtable thead{background:rgba(0,0,0,.25)}
+.dtable th{text-align:left;padding:14px 18px;font-size:10px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;font-weight:500;border-bottom:1px solid var(--line)}
+.dtable td{padding:14px 18px;border-bottom:1px solid var(--line);color:var(--text)}
+.dtable tr:last-child td{border-bottom:none}
+.dtable .nova{color:var(--amber);font-weight:500}
+.dtable .label{color:var(--dim)}
+.dtable td.num{font-variant-numeric:tabular-nums}
+
+/* BAR COMPARISON */
+.bar-compare{margin-top:32px;background:var(--bg-deep);border:1px solid var(--line);padding:36px 40px}
+.bar-row{display:grid;grid-template-columns:160px 1fr 180px;gap:24px;align-items:center;padding:18px 0;border-bottom:1px solid var(--line)}
+.bar-row:last-child{border-bottom:none}
+.bar-row.nova .bar-name{color:var(--amber)}
+.bar-row.nova .bar-fill{background:linear-gradient(90deg,var(--amber) 0%,#ff8800 100%);box-shadow:0 0 24px var(--amber-glow)}
+.bar-row.nova .bar-tail{color:var(--amber)}
+.bar-name{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text-bright);font-weight:500;letter-spacing:1px;text-transform:uppercase}
+.bar-name .sub{display:block;font-size:10px;color:var(--dim);font-weight:400;letter-spacing:.5px;margin-top:3px;text-transform:none}
+.bar-track{position:relative;height:32px;background:rgba(0,0,0,.3);border:1px solid var(--line)}
+.bar-fill{position:absolute;top:0;left:0;height:100%;background:#5a6373;display:flex;align-items:center;justify-content:flex-end;padding-right:14px;transition:width 1.2s cubic-bezier(.22,1,.36,1)}
+.bar-fill .h-label{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-bright);font-weight:500;letter-spacing:.5px;white-space:nowrap}
+.bar-tail{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text);text-align:right}
+.bar-tail .label{display:block;font-size:9px;color:var(--dim);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px}
+.bar-tail strong{font-weight:500;color:var(--text-bright)}
+.bar-axis{display:flex;justify-content:space-between;margin-top:18px;padding-left:184px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--dimmer);letter-spacing:1.5px;padding-right:204px}
+
+/* AERO DEMO */
+.aero-demo{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:32px;border:1px solid var(--line);background:var(--bg-deep)}
+.aero-side{padding:32px;position:relative;border-right:1px solid var(--line)}
+.aero-side:last-child{border-right:none}
+.aero-side h4{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:6px}
+.aero-side h4 .name{color:var(--text-bright);font-weight:500;margin-left:8px}
+.aero-side .verdict{margin-top:16px;font-size:13px;color:var(--dim);line-height:1.6}
+.aero-svg{width:100%;height:240px;margin:16px 0}
+.aero-readout{font-family:'IBM Plex Mono',monospace;font-size:12px;display:flex;justify-content:space-between;padding:10px 14px;background:rgba(0,0,0,.3);border:1px solid var(--line);margin-top:10px}
+.aero-readout .v{color:var(--amber);font-weight:500}
+.alt-control{margin-top:28px;padding:20px 24px;background:var(--bg-card);border:1px solid var(--line)}
+.alt-control-header{display:flex;justify-content:space-between;align-items:baseline;font-family:'IBM Plex Mono',monospace;font-size:11px;margin-bottom:14px}
+.alt-control-header .label{color:var(--dim);letter-spacing:1.5px;text-transform:uppercase}
+.alt-control-header .value{font-size:22px;color:var(--amber);font-weight:500;letter-spacing:-.01em}
+.alt-control-header .value .unit{font-size:12px;color:var(--dim);margin-left:4px}
+.alt-slider{-webkit-appearance:none;appearance:none;width:100%;height:4px;background:var(--line);outline:none;border-radius:2px}
+.alt-slider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;background:var(--amber);border-radius:50%;cursor:pointer;box-shadow:0 0 12px var(--amber-glow)}
+.alt-slider::-moz-range-thumb{width:14px;height:14px;background:var(--amber);border-radius:50%;cursor:pointer;border:none;box-shadow:0 0 12px var(--amber-glow)}
+.alt-marks{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--dimmer);margin-top:8px;letter-spacing:1px}
+
+.traj-chart{position:relative;margin-top:32px;background:var(--bg-deep);border:1px solid var(--line);padding:28px}
+.traj-svg{width:100%;height:380px;display:block}
+.traj-legend{display:flex;gap:20px;margin-top:16px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--dim);flex-wrap:wrap}
+.traj-legend-item{display:flex;align-items:center;gap:8px}
+.traj-legend-dot{width:10px;height:10px;border-radius:50%}
+
+.timeline-events{margin-top:32px;display:grid;grid-template-columns:repeat(7,1fr);gap:0;border:1px solid var(--line);background:var(--bg-deep)}
+.tl-event{padding:24px 18px;border-right:1px solid var(--line);position:relative;text-align:center}
+.tl-event:last-child{border-right:none}
+.tl-event::before{content:'';position:absolute;top:0;left:50%;width:8px;height:8px;background:var(--cyan);border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 8px var(--cyan-soft);border:2px solid var(--bg-deep)}
+.tl-event.start::before{background:var(--amber);box-shadow:0 0 10px var(--amber-glow)}
+.tl-event.end::before{background:var(--green);box-shadow:0 0 10px rgba(95,232,156,.4)}
+.tl-event.sep::before{background:var(--red);box-shadow:0 0 10px rgba(255,91,91,.4)}
+.tl-time{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--amber);letter-spacing:1.5px;margin-bottom:6px;font-weight:500}
+.tl-name{font-size:12px;color:var(--text);font-weight:500;line-height:1.3}
+.tl-detail{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--dim);margin-top:6px;letter-spacing:.5px}
+
+.arch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:32px}
+.arch-card{background:var(--bg-panel);padding:32px 28px;position:relative;display:flex;flex-direction:column}
+.arch-num{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--amber);letter-spacing:2px;margin-bottom:16px}
+.arch-card h3{font-family:'Fraunces',serif;font-size:22px;font-weight:400;font-variation-settings:'opsz' 144;line-height:1.2;margin-bottom:16px;color:var(--text-bright);letter-spacing:-.01em}
+.arch-card p{font-size:14px;color:var(--dim);line-height:1.65;flex:1}
+.arch-card .key-stat{margin-top:24px;padding-top:16px;border-top:1px solid var(--line);font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--dim)}
+.arch-card .key-stat strong{color:var(--amber);font-weight:500;display:block;font-size:18px;margin-bottom:4px}
+
+.status-list{margin-top:32px;border:1px solid var(--line)}
+.status-row{display:grid;grid-template-columns:80px 1fr auto;gap:24px;align-items:center;padding:18px 24px;border-bottom:1px solid var(--line);font-family:'IBM Plex Mono',monospace;font-size:13px}
+.status-row:last-child{border-bottom:none}
+.status-row .id{color:var(--dim);font-size:11px;letter-spacing:1.5px}
+.status-row .desc{color:var(--text)}
+.status-pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:500;border:1px solid}
+.status-pill.done{color:var(--amber);border-color:var(--amber);background:var(--amber-soft)}
+.status-pill.pending{color:var(--red);border-color:rgba(255,91,91,.4);background:rgba(255,91,91,.08)}
+.status-pill::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor}
+
+.terminal{background:#050709;border:1px solid var(--line);padding:36px 40px;margin-top:32px;font-family:'IBM Plex Mono',monospace;position:relative}
+.terminal::before{content:'';position:absolute;top:0;left:0;right:0;height:28px;background:linear-gradient(180deg,rgba(255,170,51,.04),transparent);pointer-events:none}
+.terminal-header{display:flex;align-items:center;gap:8px;font-size:10px;color:var(--dim);letter-spacing:1.5px;margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.terminal-header .dot{width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 8px var(--amber-glow)}
+.terminal-line{font-size:14px;color:var(--text);margin:12px 0;line-height:1.7}
+.terminal-line .prompt{color:var(--amber);margin-right:12px}
+.terminal-line .key{color:var(--dim)}
+.terminal-line .val{color:var(--text-bright)}
+.terminal-line a{color:var(--cyan);text-decoration:none;border-bottom:1px solid transparent;transition:border .2s}
+.terminal-line a:hover{border-bottom-color:var(--cyan)}
+.terminal-cursor{display:inline-block;width:8px;height:16px;background:var(--amber);vertical-align:middle;animation:cursor 1s steps(2) infinite;margin-left:4px}
+@keyframes cursor{0%,100%{opacity:1}50%{opacity:0}}
+
+footer{padding:60px 0 40px;border-top:1px solid var(--line);font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--dimmer);letter-spacing:1px}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+
+@media (max-width:1024px){
+  .timeline-events{grid-template-columns:repeat(4,1fr)}
+  .tl-event{border-bottom:1px solid var(--line)}
+  .tl-event:nth-child(4n){border-right:none}
+  .bar-row{grid-template-columns:130px 1fr 140px;gap:16px}
+  .bar-axis{padding-left:146px;padding-right:156px}
+  .bar-compare{padding:28px 24px}
+}
+@media (max-width:900px){
+  .hero-stack{grid-template-columns:repeat(2,1fr)}
+  .aero-demo{grid-template-columns:1fr}
+  .aero-side{border-right:none;border-bottom:1px solid var(--line)}
+  .aero-side:last-child{border-bottom:none}
+  .arch-grid{grid-template-columns:1fr}
+  .topbar-status{display:none}
+}
+@media (max-width:768px){
+  .bar-row{grid-template-columns:1fr;gap:12px}
+  .bar-tail{text-align:left}
+  .bar-axis{display:none}
+}
+@media (max-width:700px){
+  .timeline-events{grid-template-columns:repeat(2,1fr)}
+  .tl-event:nth-child(4n){border-right:1px solid var(--line)}
+  .tl-event:nth-child(2n){border-right:none}
+  .tl-event:nth-last-child(-n+2){border-bottom:none}
+}
+@media (max-width:600px){
+  .wrap,.wrap-narrow{padding:0 20px}
+  .topbar-inner{padding:12px 20px}
+  section{padding:70px 0}
+  .terminal{padding:24px 20px}
+}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .7s,transform .7s}
+.reveal.show{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div><div class="bg-glow"></div><div class="bg-noise"></div>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-id"><span class="dot"></span><strong>EYAD SELIM</strong><span style="color:var(--dimmer)">·</span><span>NOVA-1 / IND.AERO.RESEARCH</span></div>
+    <div class="topbar-status"><span>STATUS<strong>ADV-AUDITED</strong></span><span>REV<strong>3.0</strong></span><span>LOC<strong>CAI · 30.04°N</strong></span></div>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-meta">FELLOWSHIP DOSSIER / CLEARANCE: PUBLIC</div>
+    <h1 class="hero-title">Designing the launch vehicle that comes <em>after</em> Starship.</h1>
+    <p class="hero-sub">A fully reusable heavy-lift architecture targeting <span class="num">$33/kg</span> to orbit at maturity, with an engineered fallback that still beats Starship by <span class="num">73%</span> on payload if the dominant technical bet fails. One year of self-directed work. Twenty-document PDR at Revision 3.0 — adversarially audited, with thirty corrections applied and a sixteen-tool Python engineering toolkit independently reproducing every number.</p>
+    <div class="hero-stack">
+      <div class="hero-stat"><div class="hero-stat-label">Payload · LEO</div><div class="hero-stat-value">300,000<span class="unit">kg</span></div></div>
+      <div class="hero-stat"><div class="hero-stat-label">Mature Cost</div><div class="hero-stat-value">$33<span class="unit">/kg</span></div></div>
+      <div class="hero-stat"><div class="hero-stat-label">GLOW</div><div class="hero-stat-value">6,017.6<span class="unit">t</span></div></div>
+      <div class="hero-stat"><div class="hero-stat-label">Height</div><div class="hero-stat-value">129.0<span class="unit">m</span></div></div>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap-narrow">
+    <div class="section-tag">01 / IDENTITY</div>
+    <h2>Seventeen years old. <em>Cairo</em>. No university, no team, no funding — yet.</h2>
+    <p class="lead">I taught myself the engineering discipline of launch vehicle design over the last year and produced a complete preliminary design review package — twenty interlinked documents covering propulsion, structures, guidance, avionics, manufacturing, cost, and test plans.</p>
+    <p class="lead lead-dim">Then I commissioned an adversarial review against my own work — the kind a diligence engineer at a venture fund would run. Five showstoppers and five serious issues were surfaced. Two of the five were closed analytically. One was defanged by engineering a bell-nozzle fallback that preserves most of the competitive edge. The remaining two are still in work, and confirming the aerospike efficiency the fallback hedges requires hardware testing — fundamentally not a paper problem anymore.</p>
+    <p class="lead lead-dim">Then I built a sixteen-tool Python engineering toolkit that independently reproduces every number in the package — bottom-up vehicle mass, staging convergence, structural FEA, cooling analysis, POGO stability, cost models. Fifteen of fifteen verification checks pass. The toolkit also surfaced findings the original PDR missed: a HELIOS chamber wall over-temperature, an ENG-S1 throat-geometry inconsistency, a cost model 50–100% below comparable programs. All flagged honestly. None hidden.</p>
+    <p class="lead">What follows is the architecture, the numbers, and the honest list of what's still open. The case for it makes itself.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-tag">02 / NUMBERS</div>
+    <h2>Performance, against the comparison set that matters.</h2>
+    <p class="lead">Falcon 9 is the workhorse. New Glenn is the closest near-peer in operation. Starship is the projected ceiling. NOVA-1 figures derive from a single locked staging calculation cross-checked against first-principles orbital mechanics.</p>
+    <div class="panel">
+      <div class="panel-header">
+        <span><span class="id">DOC</span> &nbsp; <span class="label">PERFORMANCE COMPARISON</span></span>
+        <span class="meta">PUBLIC SPECS · NOVA1-VAD-001 REV 3.0</span>
+      </div>
+      <table class="dtable">
+        <thead><tr><th>Parameter</th><th>Falcon 9</th><th>New Glenn</th><th>Starship*</th><th>NOVA-1</th></tr></thead>
+        <tbody>
+          <tr><td class="label">Payload to LEO (reusable)</td><td class="num">17,400 kg</td><td class="num">45,000 kg</td><td class="num">~150,000 kg</td><td class="num nova">300,000 kg</td></tr>
+          <tr><td class="label">Payload · bell fallback†</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num nova">~260,000 kg</td></tr>
+          <tr><td class="label">Vehicle height</td><td class="num">70 m</td><td class="num">98 m</td><td class="num">121 m</td><td class="num nova">129 m</td></tr>
+          <tr><td class="label">Liftoff thrust</td><td class="num">7.6 MN</td><td class="num">17.1 MN</td><td class="num">74.4 MN</td><td class="num nova">82.95 MN</td></tr>
+          <tr><td class="label">Stage 1 propellant</td><td class="num">RP-1 / LOX</td><td class="num">CH₄ / LOX</td><td class="num">CH₄ / LOX</td><td class="num nova">CH₄ / LOX</td></tr>
+          <tr><td class="label">Stage 1 nozzle</td><td class="num">Bell · gimbal</td><td class="num">Bell · gimbal</td><td class="num">Bell · gimbal</td><td class="num nova">Aerospike (bell fallback)</td></tr>
+          <tr><td class="label">Stage 1 reuse target</td><td class="num">~20</td><td class="num">~25</td><td class="num">~100</td><td class="num nova">500 flights</td></tr>
+          <tr><td class="label">Stage 2 reusable?</td><td class="num">No</td><td class="num">No</td><td class="num">Yes</td><td class="num nova">Yes</td></tr>
+          <tr><td class="label">Cost per kg · mature</td><td class="num">$3,850</td><td class="num">~$1,500 est.</td><td class="num">~$67</td><td class="num nova">$33 / $38‡</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--dimmer);margin-top:12px;letter-spacing:.5px;line-height:1.7;">* Starship figures based on publicly stated design targets at maturity.<br>† Bell nozzle fallback if DE-03 aerospike efficiency test returns &lt; 88%. Architecture is engineered for either case.<br>‡ $33/kg aerospike design point · $38/kg bell fallback. Both beat Starship's $67/kg projection.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-tag">03 / PRINCIPLE</div>
+    <h2>The aerospike isn't <em>a feature</em>. It's the architecture.</h2>
+    <p class="lead">A bell nozzle is optimized for one altitude. Move away from that altitude and efficiency drops. An aerospike adapts to ambient pressure across the entire ascent. The chart below is interactive — drag the altitude to see how plume geometry and effective Isp change for both nozzles.</p>
+    <div class="aero-demo">
+      <div class="aero-side">
+        <h4>NOZZLE A · <span class="name">BELL · SEA-LEVEL OPTIMIZED</span></h4>
+        <svg class="aero-svg" viewBox="0 0 300 240">
+          <defs><linearGradient id="bellGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ff6633" stop-opacity="0.9"/><stop offset="50%" stop-color="#ffaa33" stop-opacity="0.7"/><stop offset="100%" stop-color="#ffaa33" stop-opacity="0"/></linearGradient></defs>
+          <path d="M 130 60 L 130 110 L 105 160 L 195 160 L 170 110 L 170 60 Z" fill="#1c2330" stroke="#2d3849" stroke-width="1"/>
+          <line x1="130" y1="60" x2="170" y2="60" stroke="#4a5363" stroke-width="1"/>
+          <path id="bellPlume" d="M 105 160 Q 90 200, 85 240 L 215 240 Q 210 200, 195 160 Z" fill="url(#bellGrad)" opacity="0.7"/>
+          <text x="20" y="225" font-family="IBM Plex Mono" font-size="9" fill="#6b7585" letter-spacing="1.5">P_ambient</text>
+          <text x="280" y="225" font-family="IBM Plex Mono" font-size="9" fill="#ffaa33" text-anchor="end" letter-spacing="1.5" id="bellPamb">1.013 bar</text>
+        </svg>
+        <div class="aero-readout"><span>Effective Isp</span><span class="v" id="bellIsp">282 s</span></div>
+        <div class="verdict">Below design altitude: over-expanded plume, separated flow.<br>Above: under-expanded plume, energy lost to atmosphere.</div>
+      </div>
+      <div class="aero-side">
+        <h4>NOZZLE B · <span class="name">ANNULAR AEROSPIKE · ALT-COMP</span></h4>
+        <svg class="aero-svg" viewBox="0 0 300 240">
+          <defs><linearGradient id="aeroGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4dd9ff" stop-opacity="0.9"/><stop offset="50%" stop-color="#4dd9ff" stop-opacity="0.6"/><stop offset="100%" stop-color="#4dd9ff" stop-opacity="0"/></linearGradient></defs>
+          <rect x="90" y="60" width="120" height="50" fill="#1c2330" stroke="#2d3849" stroke-width="1"/>
+          <path d="M 110 110 L 150 200 L 190 110 Z" fill="#1c2330" stroke="#2d3849" stroke-width="1"/>
+          <path id="aeroPlume" d="M 90 110 Q 110 200, 150 220 Q 190 200, 210 110 Z" fill="url(#aeroGrad)" opacity="0.75"/>
+          <text x="20" y="225" font-family="IBM Plex Mono" font-size="9" fill="#6b7585" letter-spacing="1.5">P_ambient</text>
+          <text x="280" y="225" font-family="IBM Plex Mono" font-size="9" fill="#4dd9ff" text-anchor="end" letter-spacing="1.5" id="aeroPamb">1.013 bar</text>
+        </svg>
+        <div class="aero-readout"><span>Effective Isp</span><span class="v" id="aeroIsp">375 s</span></div>
+        <div class="verdict">Plume geometry adjusts continuously to ambient pressure.<br>One engine performs across the entire ascent envelope.</div>
+      </div>
+    </div>
+    <div class="alt-control">
+      <div class="alt-control-header"><div class="label">→ Drag · Simulated Altitude</div><div class="value"><span id="altVal">0</span><span class="unit">km</span></div></div>
+      <input type="range" min="0" max="80" value="0" class="alt-slider" id="altSlider">
+      <div class="alt-marks"><span>0 · SEA LEVEL</span><span>15 · TROPOPAUSE</span><span>40 · MID</span><span>80 · KÁRMÁN</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-tag">04 / SCALE</div>
+    <h2>Height and payload, against the peer group.</h2>
+    <p class="lead">Bars drawn proportional to vehicle height. Numbers are public specifications. NOVA-1 is the largest — by both height and payload — but the more important comparison is structure: it's the only one with full two-stage reuse and an aerospike Stage 1.</p>
+    <div class="bar-compare">
+      <div class="bar-row">
+        <div class="bar-name">Falcon 9<span class="sub">SpaceX · operational</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:54.3%"><span class="h-label">70.0 m</span></div></div>
+        <div class="bar-tail"><span class="label">Payload to LEO</span><strong>17,400 kg</strong></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-name">New Glenn<span class="sub">Blue Origin · operational</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:75.9%"><span class="h-label">98.0 m</span></div></div>
+        <div class="bar-tail"><span class="label">Payload to LEO</span><strong>45,000 kg</strong></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-name">Starship<span class="sub">SpaceX · in development</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:93.7%"><span class="h-label">121.0 m</span></div></div>
+        <div class="bar-tail"><span class="label">Payload to LEO</span><strong>~150,000 kg</strong></div>
+      </div>
+      <div class="bar-row nova">
+        <div class="bar-name">NOVA-1<span class="sub">Independent · PDR</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:100%"><span class="h-label">129.0 m</span></div></div>
+        <div class="bar-tail"><span class="label">Payload to LEO</span><strong>300,000 kg</strong></div>
+      </div>
+      <div class="bar-axis"><span>0 m</span><span>40 m</span><span>80 m</span><span>120 m</span><span>129 m</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-tag">05 / ARCHITECTURE</div>
+    <h2>Three decisions that define the cost model.</h2>
+    <div class="arch-grid">
+      <div class="arch-card"><div class="arch-num">▸ DEC.01</div><h3>Annular aerospike Stage&nbsp;1, 44 engines, ORSC LOX/LCH₄.</h3><p>Altitude-compensating nozzle eliminates the sea-level-vs-vacuum tradeoff inherent to bell nozzles. Differential throttling across four engine quadrants provides thrust vector control without gimbal hardware. The geometry only becomes stable at this vehicle's specific 3.9:1 aspect ratio — which is what makes pitched reentry possible.</p><div class="key-stat"><strong>375 s</strong>ALT-COMPENSATED ISP · SL TO 80 KM</div></div>
+      <div class="arch-card"><div class="arch-num">▸ DEC.02</div><h3>Pitched-body Stage&nbsp;1 reentry at 30–45° from vertical.</h3><p>Falcon 9 returns engines-first because its aspect ratio forces it to. NOVA-1's aspect ratio permits a pitched return — full cylindrical face into the airflow, ~400 m² drag area, faster deceleration, lower peak heating. First-order analysis: positive static margin, grid fin authority 6.5× required restoring moment.</p><div class="key-stat"><strong>3.9 : 1</strong>ASPECT RATIO · STABILITY THRESHOLD</div></div>
+      <div class="arch-card"><div class="arch-num">▸ DEC.03</div><h3>Belly-first reusable Stage&nbsp;2, designed in from day one.</h3><p>Four deployable fins. Belly-into-velocity-vector reentry from orbit. Propulsive flip at 5 km altitude. Tower catch on forward hardpoints. Reuse cannot be retrofitted to a Stage 2 designed expendable — the structural margins, the TPS coverage, and the fin attachments all live in the original architecture.</p><div class="key-stat"><strong>200 flights</strong>STAGE 2 DESIGN LIFE</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap-narrow">
+    <div class="section-tag">06 / FALLBACK</div>
+    <h2>The aerospike is upside. <em>Not dependency.</em></h2>
+    <p class="lead">The hardest question for any reviewer of NOVA-1 is the same one I asked myself: what if the aerospike doesn't perform? The 94% efficiency assumption traces to data from a cancelled NASA program with different propellants, chamber pressure, and geometry. It's the largest single uncertainty in the package — and it cannot be resolved without hardware testing.</p>
+    <p class="lead">So I engineered the answer: a bell-nozzle fallback configuration, fully designed to the same depth as the primary architecture. Same ORSC cycle, same propellants, same chamber pressure, same upstream propulsion. Only the nozzle section changes. The bell delivers Raptor v3-class performance using flight-proven cooling technology.</p>
+    <div class="panel" style="margin-top:32px">
+      <div class="panel-header">
+        <span><span class="id">NOVA1-FBA-001</span> &nbsp; <span class="label">BELL FALLBACK · COMPETITIVE POSITION</span></span>
+        <span class="meta">DECISION GATE · DE-03 EFFICIENCY ≥ 88%</span>
+      </div>
+      <table class="dtable">
+        <thead><tr><th>Configuration</th><th>Payload to LEO</th><th>Cost / kg · mature</th><th>Advantage vs Starship</th></tr></thead>
+        <tbody>
+          <tr><td class="label">Starship (projected mature)</td><td class="num">~150,000 kg</td><td class="num">~$67</td><td class="num">baseline</td></tr>
+          <tr><td class="label">NOVA-1 bell fallback</td><td class="num nova">~260,000 kg</td><td class="num nova">~$38</td><td class="num nova">+73% payload · −43% $/kg</td></tr>
+          <tr><td class="label">NOVA-1 aerospike (design)</td><td class="num nova">300,000 kg</td><td class="num nova">~$33</td><td class="num nova">+100% payload · −51% $/kg</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lead lead-dim" style="margin-top:24px">The competitive edge does not depend on the aerospike. It depends on vehicle scale, methane propellant economics, and the catch-recovery architecture — three things the fallback preserves entirely. The aerospike is the upside if DE-03 confirms efficiency. The bell case is what makes NOVA-1 investable regardless.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap-narrow">
+    <div class="section-tag">07 / AUDIT</div>
+    <h2>Red-teamed against my own work. <em>Hard.</em></h2>
+    <p class="lead">Most early-stage technical packages collapse on the first hard question because nobody tested them under hostile conditions. I commissioned that test on myself before any investor does. The full adversarial review document — NOVA1-ADV-001 — sits alongside the engineering package.</p>
+    <div class="panel" style="margin-top:32px">
+      <div class="panel-header">
+        <span><span class="id">NOVA1-ADV-001</span> &nbsp; <span class="label">ADVERSARIAL FINDINGS · DISPOSITION</span></span>
+        <span class="meta">5 SHOWSTOPPERS · 5 SERIOUS · 3 INCONSISTENCIES</span>
+      </div>
+      <div class="status-list" style="border:none">
+        <div class="status-row"><div class="id">SH-01</div><div class="desc">Stage 1 inert mass fraction ε=0.05 indefensible vs comparable vehicles</div><div><span class="status-pill pending">OPEN · WORKING</span></div></div>
+        <div class="status-row"><div class="id">SH-02</div><div class="desc">GLOW staging-chain convergence error — VAD hardcoded ε₂=0.175 vs actual 0.171</div><div><span class="status-pill done">CLOSED · GLOW 6,017.6 t</span></div></div>
+        <div class="status-row"><div class="id">SH-03</div><div class="desc">Aerospike 94% efficiency assumption — XRS-2200 transfer questionable</div><div><span class="status-pill done">DEFANGED · FBA-001</span></div></div>
+        <div class="status-row"><div class="id">SH-04</div><div class="desc">44-engine cluster reliability — N-1 risk class</div><div><span class="status-pill pending">PARTIAL · POGO STABLE</span></div></div>
+        <div class="status-row"><div class="id">SH-05</div><div class="desc">Cost model 50–100% below comparable programs</div><div><span class="status-pill done">CORRECTED · $32.5B</span></div></div>
+      </div>
+    </div>
+    <p class="lead lead-dim" style="margin-top:32px">Then I built a sixteen-tool Python engineering toolkit that independently reproduces every number in the package. The toolkit surfaced findings the original PDR missed — chamber wall temperatures, geometric inconsistencies, requirements-traceability gaps. All escalated honestly to FIX-002 for closure. The point is not that the package is perfect. The point is that I find and fix my own failures before someone else has to.</p>
+    <p class="lead">The full ADV-001 review, FIX-002 correction log, and toolkit verification report are shared with serious parties on request.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-tag">08 / TRAJECTORY</div>
+    <h2>Mission profile · ground to orbit in 525 seconds.</h2>
+    <p class="lead">Computed altitude and velocity profile from the Block 1 mission design document. Each anchor point is derived from the rocket equation cross-checked against atmospheric drag and gravity loss models.</p>
+    <div class="traj-chart">
+      <svg class="traj-svg" viewBox="0 0 800 380" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="altFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffaa33" stop-opacity="0.35"/><stop offset="100%" stop-color="#ffaa33" stop-opacity="0"/></linearGradient>
+          <linearGradient id="velStroke" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#4dd9ff" stop-opacity="0.4"/><stop offset="100%" stop-color="#4dd9ff" stop-opacity="1"/></linearGradient>
+        </defs>
+        <g stroke="#1a212d" stroke-width="0.5">
+          <line x1="60" y1="40" x2="60" y2="320"/><line x1="60" y1="320" x2="780" y2="320"/>
+          <line x1="60" y1="250" x2="780" y2="250" stroke-dasharray="2 4"/><line x1="60" y1="180" x2="780" y2="180" stroke-dasharray="2 4"/>
+          <line x1="60" y1="110" x2="780" y2="110" stroke-dasharray="2 4"/><line x1="60" y1="40" x2="780" y2="40" stroke-dasharray="2 4"/>
+        </g>
+        <g font-family="IBM Plex Mono" font-size="9" fill="#6b7585" letter-spacing="1">
+          <text x="50" y="324" text-anchor="end">0</text><text x="50" y="254" text-anchor="end">100</text>
+          <text x="50" y="184" text-anchor="end">200</text><text x="50" y="114" text-anchor="end">300</text>
+          <text x="50" y="44" text-anchor="end">400</text>
+          <text x="20" y="180" text-anchor="middle" transform="rotate(-90 20 180)" fill="#ffaa33" letter-spacing="2">ALT (km)</text>
+        </g>
+        <g font-family="IBM Plex Mono" font-size="9" fill="#6b7585" letter-spacing="1">
+          <text x="60" y="340" text-anchor="middle">T+0</text><text x="223" y="340" text-anchor="middle">120s</text>
+          <text x="380" y="340" text-anchor="middle">230s</text><text x="540" y="340" text-anchor="middle">350s</text>
+          <text x="780" y="340" text-anchor="middle">525s · MECO 2</text>
+        </g>
+        <path d="M 60,320 L 76,319.6 L 89,319.3 L 100,318.7 L 120,316.7 L 137,313.2 L 156,309 L 175,302.6 L 195,289 L 218,272.4 L 240,254.7 L 263,238.3 L 287,219.7 L 310,200 L 332,178.4 L 355,148.6 L 380,120 L 384,118.6 L 388,117.5 L 432,109.1 L 488,79 L 549,33 L 670,8 L 780,40 Z" fill="url(#altFill)" stroke="none"/>
+        <path d="M 60,320 L 76,319.6 L 89,319.3 L 100,318.7 L 120,316.7 L 137,313.2 L 156,309 L 175,302.6 L 195,289 L 218,272.4 L 240,254.7 L 263,238.3 L 287,219.7 L 310,200 L 332,178.4 L 355,148.6 L 380,120 L 384,118.6 L 388,117.5 L 432,109.1 L 488,79 L 549,33 L 670,8 L 780,40" fill="none" stroke="#ffaa33" stroke-width="2"/>
+        <path d="M 60,320 L 80,319 L 100,316 L 137,310 L 175,289 L 218,256 L 240,229 L 287,192 L 310,166 L 355,108 L 380,55 L 384,55 L 432,52 L 488,49 L 549,47 L 670,42 L 780,40" fill="none" stroke="url(#velStroke)" stroke-width="1.5" stroke-dasharray="3 3"/>
+        <g>
+          <circle cx="149" cy="312" r="4" fill="#ffd54a" stroke="#0a0d12" stroke-width="2"/>
+          <text x="149" y="304" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#ffd54a" letter-spacing="1">MAX-Q</text>
+          <circle cx="380" cy="120" r="4" fill="#ff5b5b" stroke="#0a0d12" stroke-width="2"/>
+          <text x="380" y="112" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#ff5b5b" letter-spacing="1">S1 MECO</text>
+          <circle cx="384" cy="118.6" r="4" fill="#4dd9ff" stroke="#0a0d12" stroke-width="2"/>
+          <circle cx="780" cy="40" r="5" fill="#5fe89c" stroke="#0a0d12" stroke-width="2"/>
+          <text x="780" y="30" text-anchor="end" font-family="IBM Plex Mono" font-size="9" fill="#5fe89c" letter-spacing="1">INSERTION 400km</text>
+        </g>
+        <text x="60" y="20" font-family="IBM Plex Mono" font-size="10" fill="#6b7585" letter-spacing="2">ASCENT TRAJECTORY · ALTITUDE vs TIME</text>
+      </svg>
+      <div class="traj-legend">
+        <div class="traj-legend-item"><div class="traj-legend-dot" style="background:#ffaa33"></div>Altitude (left axis)</div>
+        <div class="traj-legend-item"><div class="traj-legend-dot" style="background:#4dd9ff"></div>Velocity (proportional)</div>
+        <div class="traj-legend-item"><div class="traj-legend-dot" style="background:#ffd54a"></div>Max-Q · 24.2 kPa @ T+65s</div>
+        <div class="traj-legend-item"><div class="traj-legend-dot" style="background:#ff5b5b"></div>S1 MECO @ T+230s</div>
+        <div class="traj-legend-item"><div class="traj-legend-dot" style="background:#5fe89c"></div>Insertion @ T+525s</div>
+      </div>
+    </div>
+    <div class="timeline-events">
+      <div class="tl-event start"><div class="tl-time">T + 0s</div><div class="tl-name">Liftoff</div><div class="tl-detail">82.95 MN · 44 eng</div></div>
+      <div class="tl-event"><div class="tl-time">T + 65s</div><div class="tl-name">Max-Q</div><div class="tl-detail">24.2 kPa · 10 km</div></div>
+      <div class="tl-event"><div class="tl-time">T + 160s</div><div class="tl-name">4g Throttle</div><div class="tl-detail">Limit profile</div></div>
+      <div class="tl-event"><div class="tl-time">T + 230s</div><div class="tl-name">S1 MECO</div><div class="tl-detail">72 km · 6.5 km/s</div></div>
+      <div class="tl-event sep"><div class="tl-time">T + 233s</div><div class="tl-name">Separation</div><div class="tl-detail">Pyrotechnic + S2 ign.</div></div>
+      <div class="tl-event"><div class="tl-time">T + 420s</div><div class="tl-name">Coast</div><div class="tl-detail">Ascent burn</div></div>
+      <div class="tl-event end"><div class="tl-time">T + 525s</div><div class="tl-name">Orbit</div><div class="tl-detail">400 km · 7.67 km/s</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap-narrow">
+    <div class="section-tag">09 / STATUS</div>
+    <h2>What's <em>done</em>. What needs hardware.</h2>
+    <p class="lead">Twenty-document PDR at Revision 3.0 — locked, cross-audited, and independently reproduced by the sixteen-tool Apogee toolkit. Three findings the toolkit surfaced have been escalated to the FIX-002 correction log. Everything resolvable on paper is closed. The two items that remain require hardware test data that does not exist in the open literature.</p>
+    <div class="status-list">
+      <div class="status-row"><div class="id">ENG-01</div><div class="desc">Stage 1 propulsion architecture (44× aerospike, ORSC, LOX/LCH₄) + bell fallback</div><div><span class="status-pill done">RESOLVED</span></div></div>
+      <div class="status-row"><div class="id">ENG-02</div><div class="desc">Stage 2 propulsion (4× expander cycle, LOX/LH₂, 460s vacuum Isp)</div><div><span class="status-pill done">RESOLVED</span></div></div>
+      <div class="status-row"><div class="id">STR</div><div class="desc">Structural design — both stages, CFRP tanks, bottom-up mass verified by toolkit</div><div><span class="status-pill done">RESOLVED</span></div></div>
+      <div class="status-row"><div class="id">GNC</div><div class="desc">Guidance, navigation, control — trajectory & landing burn verified</div><div><span class="status-pill done">RESOLVED</span></div></div>
+      <div class="status-row"><div class="id">CST</div><div class="desc">Cost model — rebuilt bottom-up. $32.5B program, $19M/flight ops</div><div><span class="status-pill done">RESOLVED</span></div></div>
+      <div class="status-row"><div class="id">POGO</div><div class="desc">44-engine cluster stability — first-pass model returns stable, no accumulator</div><div><span class="status-pill done">RESOLVED · V1</span></div></div>
+      <div class="status-row"><div class="id">FBA-001</div><div class="desc">Bell nozzle fallback architecture — engineered, documented, defangs DE-03 risk</div><div><span class="status-pill done">RESOLVED</span></div></div>
+      <div class="status-row"><div class="id">HELIOS-T</div><div class="desc">Chamber wall over-temperature flagged by toolkit — cooling fix selection</div><div><span class="status-pill pending">FIX-002 OPEN</span></div></div>
+      <div class="status-row"><div class="id">ε-S1</div><div class="desc">Bottom-up Stage 1 inert mass fraction derivation</div><div><span class="status-pill pending">IN WORK</span></div></div>
+      <div class="status-row"><div class="id">DE-03α</div><div class="desc">Aerospike efficiency at production scale — fallback exists if &lt; 88%</div><div><span class="status-pill pending">HW TEST</span></div></div>
+      <div class="status-row"><div class="id">DE-03β</div><div class="desc">C-C aerospike plug recession rate in LOX/LCH₄ ORSC products</div><div><span class="status-pill pending">HW TEST</span></div></div>
+    </div>
+    <p class="lead lead-dim" style="margin-top:32px">Next step is not more paper. Next step is a subscale single-engine aerospike demonstrator that retires DE-03 risk in the open — same cycle, same propellants, same chamber pressure, 1/10 thrust class. One to two years, five to ten million dollars. Hot fire data to ±2% efficiency measurement. That is what the next period of work is about.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap-narrow">
+    <div class="section-tag">10 / CONTACT</div>
+    <h2>If you've read this far, <em>let's talk</em>.</h2>
+    <p class="lead">The realistic seed ask is five to ten million dollars for a subscale aerospike demonstrator over twelve months to twenty-four months — retiring the dominant DE-03 risk before any commitment to the full program. Successful demonstrator unlocks the Series A path to a real heavy-lift program. The full engineering package, the ADV-001 adversarial review, the FIX-002 correction log, and the Apogee toolkit verification are shared with interested parties on request.</p>
+    <div class="terminal">
+      <div class="terminal-header"><span class="dot"></span>EYAD@NOVA1 ~ / CONTACT_TERMINAL · LIVE</div>
+      <div class="terminal-line"><span class="prompt">$</span><span class="key">whoami</span></div>
+      <div class="terminal-line" style="margin-left:24px;"><span class="val">eyad selim · 17 · cairo · independent · no team yet</span></div>
+      <div class="terminal-line"><span class="prompt">$</span><span class="key">cat contact.txt</span></div>
+      <div class="terminal-line" style="margin-left:24px;"><a href="mailto:eyads8651@gmail.com">eyads8651@gmail.com</a></div>
+      <div class="terminal-line"><span class="prompt">$</span><span class="key">ls package/</span></div>
+      <div class="terminal-line" style="margin-left:24px;color:var(--dim);font-size:13px;">20 .docx (Rev 3.0) · FBA-001 bell fallback · ADV-001 audit · FIX-002 corrections · Apogee toolkit (16 tools) · trajectory sim<span class="terminal-cursor"></span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>EYAD SELIM · INDEPENDENT AEROSPACE RESEARCH · CAIRO, EGYPT</div>
+    <div>NOVA-1 · BLOCK 1 · PDR REV 3.0 · ADV-AUDITED · 2026</div>
+  </div>
+</footer>
+
+<script>
+const slider=document.getElementById('altSlider'),altVal=document.getElementById('altVal'),bellPlume=document.getElementById('bellPlume'),aeroPlume=document.getElementById('aeroPlume'),bellIspEl=document.getElementById('bellIsp'),aeroIspEl=document.getElementById('aeroIsp'),bellPamb=document.getElementById('bellPamb'),aeroPamb=document.getElementById('aeroPamb');
+function ambientP(h){if(h<11)return 1.013*Math.pow(1-0.0065*h*1000/288.15,5.256);if(h<25)return 0.2234*Math.exp(-0.0001577*(h*1000-11000));if(h<50)return 0.0249*Math.exp(-0.000128*(h*1000-25000));return 0.001*Math.exp(-0.0001*(h*1000-50000));}
+function update(h){altVal.textContent=h;let bI;if(h<5)bI=282+h*0.4;else if(h<15)bI=284-(h-5)*1.2;else bI=272+(h-15)*0.5;bI=Math.round(bI*10)/10;let aI=363+Math.min(h,20)*0.6;aI=Math.round(aI*10)/10;bellIspEl.textContent=bI+' s';aeroIspEl.textContent=aI+' s';const p=ambientP(h);bellPamb.textContent=p.toFixed(3)+' bar';aeroPamb.textContent=p.toFixed(3)+' bar';const bE=Math.min(60,10+(1.013-p)*50);bellPlume.setAttribute('d',`M 105 160 Q ${90-bE*0.4} 200, ${85-bE} 240 L ${215+bE} 240 Q ${210+bE*0.4} 200, 195 160 Z`);const aS=20+(1.013-p)*15;aeroPlume.setAttribute('d',`M 90 110 Q ${110-aS*0.3} 200, 150 ${220+aS*0.5} Q ${190+aS*0.3} 200, 210 110 Z`);}
+slider.addEventListener('input',e=>update(parseInt(e.target.value)));update(0);
+const observer=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('show')})},{threshold:0.12});
+document.querySelectorAll('section, header').forEach(el=>{el.classList.add('reveal');observer.observe(el)});
+</script>
+</body>
+</html>
