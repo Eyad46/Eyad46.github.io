@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Faultline — Failure analysis software for aerospace hardware</title>
+<meta name="description" content="Faultline drafts FMEAs, the failure analysis documents aerospace hardware teams must produce before anything flies. AI proposes, engineer disposes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F2F3F0;
+  --paper-2:#E6E8E3;
+  --ink:#12161A;
+  --ink-2:#3C444C;
+  --slate:#59636E;
+  --rule:#C9CEC8;
+  --flag:#C2410C;
+  --flag-soft:#F2E4D9;
+  --pad:clamp(22px,5vw,72px);
+  --gap:clamp(28px,4vw,54px);
+  --vpad:clamp(46px,6.5vw,88px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:'Space Grotesk',system-ui,-apple-system,sans-serif;
+  font-size:17px;line-height:1.5;
+}
+.wrap{max-width:1180px;margin:0 auto}
+
+/* ---------------- section shell ---------------- */
+.sec{padding:var(--vpad) var(--pad);border-bottom:1px solid var(--rule)}
+.sec:last-of-type{border-bottom:0}
+.sec.dark{background:var(--ink);color:var(--paper);border-bottom-color:#252b31}
+.sec.dark .dc,.sec.dark .colhead{color:#98A1AA}
+.sec.dark h1,.sec.dark h2,.sec.dark h3,.sec.dark .pull{color:var(--paper)}
+.sec.dark .lede,.sec.dark ul.tight li{color:#C6CDD3}
+.sec.dark ul.tight li b{color:var(--paper)}
+.sec.dark .note{color:#98A1AA}
+.sec.dark .eyebrow{color:#E8845A}
+.sec.dark .contact{color:#98A1AA;border-top-color:var(--paper)}
+.sec.dark .contact b{color:var(--paper)}
+.sec.dark .funnel,.sec.dark .stats,.sec.dark .asks{background:#39414A;border-color:#39414A}
+.sec.tint{background:var(--paper-2);color:var(--ink)}
+
+/* document-control header — structural device */
+.dc{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 16px;
+  font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:13.5px;
+  letter-spacing:0.09em;text-transform:uppercase;color:var(--slate);
+  padding-bottom:10px;border-bottom:1.5px solid currentColor;
+  margin-bottom:clamp(20px,3vw,34px);
+}
+.dc .n{color:var(--ink);font-weight:600}
+.sec.dark .dc .n{color:var(--paper)}
+.dc .t{margin-left:auto}
+
+h1{font-size:clamp(34px,6.4vw,74px);font-weight:600;letter-spacing:-.035em;line-height:1.02;font-variant-numeric:tabular-nums}
+h2{font-size:clamp(25px,3.9vw,44px);font-weight:600;letter-spacing:-.028em;line-height:1.1;max-width:26ch}
+h3{font-size:clamp(19px,2.4vw,27px);font-weight:600;letter-spacing:-.02em;line-height:1.2}
+.lede{font-size:clamp(16px,1.75vw,21px);color:var(--ink-2);max-width:64ch;margin-top:16px;line-height:1.5}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:0.09em;
+  text-transform:uppercase;color:var(--flag);margin-bottom:14px;font-weight:500;
+}
+
+/* ---------------- hero ---------------- */
+.hero{padding:clamp(34px,6vw,80px) var(--pad) clamp(30px,5vw,64px)}
+.brandline{
+  display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  padding-bottom:14px;border-bottom:1.5px solid var(--ink);margin-bottom:clamp(28px,4vw,48px);
+}
+.wordmark{font-size:clamp(30px,4.6vw,50px);font-weight:600;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.readtime{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:13.5px;letter-spacing:0.09em;
+  text-transform:uppercase;color:var(--slate);
+}
+.sod{display:flex;gap:5px}
+.sod .cell{
+  background:var(--ink);color:var(--paper);font-family:'IBM Plex Mono',monospace;font-weight:500;
+  width:clamp(40px,5.2vw,54px);aspect-ratio:1;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;
+}
+.sod .cell .k{font-size:clamp(9px,1vw,11px);letter-spacing:.06em;opacity:.78;margin-bottom:2px;font-weight:500}
+.sod .cell .v{font-size:clamp(16px,2vw,22px);font-weight:600;font-variant-numeric:tabular-nums;font-variant-numeric:tabular-nums}
+.sod .cell.hi{background:var(--flag)}
+.sod.sm .cell{width:34px}
+.sod.sm .cell .v{font-size:14px}
+.sod.sm .cell .k{font-size:9px}
+
+/* ---------------- worksheet rows ---------------- */
+.rows{border-top:1px solid var(--rule)}
+.row{
+  display:grid;grid-template-columns:190px 1fr;gap:24px;
+  padding:16px 0;border-bottom:1px solid var(--rule);align-items:start;
+}
+.row .who{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:13.5px;line-height:1.5;
+  text-transform:uppercase;letter-spacing:0.09em;color:var(--slate);padding-top:3px;
+}
+.row .who b{display:block;color:var(--ink);font-weight:600;font-size:13.5px;letter-spacing:.01em}
+.row .quote{
+  font-family:'Newsreader',Georgia,serif;font-size:clamp(17px,2vw,23px);
+  line-height:1.35;color:var(--ink);
+}
+.row .quote em{font-style:italic;font-weight:500;color:#A8350A}
+
+/* ---------------- data ---------------- */
+.funnel{color:var(--ink);display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.fstep{color:var(--ink);background:var(--paper);padding:18px 16px}
+.fstep:last-child{background:var(--flag-soft)}
+.fstep .n{color:var(--ink);font-size:clamp(32px,4.6vw,54px);font-weight:600;letter-spacing:-.015em;line-height:1;font-variant-numeric:tabular-nums;font-variant-numeric:tabular-nums}
+.fstep .l{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:13.5px;letter-spacing:0.09em;
+  text-transform:uppercase;color:var(--slate);margin-top:9px;line-height:1.5;
+}
+.stats{color:var(--ink);display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:22px}
+.stat{color:var(--ink);background:var(--paper);padding:16px}
+.stat .n{color:var(--ink);font-size:clamp(27px,3.5vw,45px);font-weight:600;letter-spacing:-.015em;line-height:1;font-variant-numeric:tabular-nums;font-variant-numeric:tabular-nums}
+.stat .l{font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:13px;letter-spacing:0.09em;text-transform:uppercase;color:var(--slate);margin-top:8px;line-height:1.5}
+.stat.hi .n{color:var(--flag)}
+
+/* ---------------- layout ---------------- */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);align-items:start}
+.cols.lean{grid-template-columns:1.12fr .88fr}
+.colhead{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:13.5px;letter-spacing:0.09em;text-transform:uppercase;
+  color:var(--slate);padding-bottom:8px;border-bottom:1.5px solid var(--ink);margin-bottom:16px;
+}
+.colhead.flag{color:var(--flag);border-bottom-color:var(--flag)}
+.sec.dark .colhead{border-bottom-color:var(--paper)}
+ul.tight{list-style:none;display:flex;flex-direction:column;gap:13px}
+ul.tight li{
+  font-size:clamp(15px,1.55vw,18px);line-height:1.48;color:var(--ink-2);
+  padding-left:18px;position:relative;
+}
+ul.tight li::before{content:'';position:absolute;left:0;top:.66em;width:9px;height:1.5px;background:var(--flag)}
+ul.tight li b{color:var(--ink);font-weight:600}
+
+.pull{
+  font-family:'Newsreader',Georgia,serif;
+  font-size:clamp(24px,3.6vw,44px);line-height:1.2;letter-spacing:-.012em;max-width:24ch;
+}
+.attrib{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:14px;letter-spacing:0.09em;
+  text-transform:uppercase;color:var(--slate);margin-top:20px;line-height:1.7;
+}
+.attrib b{color:var(--ink);font-weight:600;display:block}
+.sec.dark .attrib b{color:var(--paper)}
+.note{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:14px;letter-spacing:0.09em;
+  color:var(--slate);margin-top:18px;line-height:1.75;max-width:78ch;
+}
+
+/* worksheet mock */
+.mock{color:var(--ink);border:1.5px solid var(--ink);background:var(--paper)}
+.mock .mh{
+  display:flex;gap:12px;align-items:center;padding:11px 13px;background:var(--ink);color:var(--paper);
+  font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:13px;letter-spacing:0.09em;text-transform:uppercase;
+}
+.mock .mh .r{margin-left:auto;opacity:.6}
+.mr{padding:13px;border-bottom:1px solid var(--rule)}
+.ml{font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:12.5px;letter-spacing:0.09em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.mt{font-size:clamp(14px,1.4vw,16px);line-height:1.45}
+.mt.dim{color:var(--ink-2)}
+.ms{color:var(--ink);display:flex;align-items:center;gap:10px;padding:11px 13px;background:var(--paper-2);flex-wrap:wrap}
+.ms .tag{
+  font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:0.09em;text-transform:uppercase;
+  color:var(--paper);background:var(--flag);padding:6px 10px;margin-left:auto;font-weight:600;
+}
+
+/* ask */
+.asks{color:var(--ink);display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:8px}
+.ask{color:var(--ink);background:var(--paper);padding:20px}
+.ask .t{font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:13px;letter-spacing:0.09em;text-transform:uppercase;color:var(--flag);margin-bottom:10px}
+.ask .d{font-size:clamp(14.5px,1.45vw,17px);line-height:1.48;color:var(--ink-2)}
+.ask .d b{color:var(--ink);font-weight:600}
+.contact{
+  margin-top:26px;padding-top:16px;border-top:1.5px solid var(--ink);
+  font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:13px;letter-spacing:0.09em;color:var(--slate);
+  display:flex;gap:14px 30px;flex-wrap:wrap;
+}
+.contact b{color:var(--ink);font-weight:600}
+.contact a{color:inherit}
+
+/* ---------------- mobile ---------------- */
+@media (max-width:820px){
+  .cols,.cols.lean{grid-template-columns:1fr;gap:30px}
+  .funnel,.stats{grid-template-columns:1fr 1fr}
+  .asks{grid-template-columns:1fr}
+  .row{grid-template-columns:1fr;gap:8px;padding:18px 0}
+  .row .who{padding-top:0}
+  .brandline{align-items:flex-start}
+}
+@media (max-width:480px){
+  .funnel,.stats{grid-template-columns:1fr}
+}
+
+/* ---------------- print → PDF ---------------- */
+@page{size:13.333in 7.5in;margin:0}
+@media print{
+  :root{--pad:.6in;--vpad:.55in;--gap:.42in}
+  body{font-size:12px;line-height:1.42}
+  h1{font-size:40pt;line-height:1.03}
+  h2{font-size:22pt;line-height:1.12}
+  .lede{font-size:11.5pt;line-height:1.45;margin-top:12px}
+  .pull{font-size:21pt;line-height:1.22}
+  ul.tight{gap:10px}
+  ul.tight li{font-size:10.5pt;line-height:1.44}
+  .row{padding:11px 0}
+  .row .quote{font-size:12.5pt;line-height:1.3}
+  .row .who{font-size:9pt}
+  .row .who b{font-size:9.5pt}
+  .fstep{padding:13px 14px}
+  .fstep .n{color:var(--ink);font-size:26pt}
+  .fstep .l{font-size:8.5pt;margin-top:6px}
+  .stat{padding:12px 14px}
+  .stat .n{color:var(--ink);font-size:20pt}
+  .stat .l{font-size:8.5pt;margin-top:6px}
+  .ask{padding:15px}
+  .ask .d{font-size:10pt;line-height:1.42}
+  .note{font-size:9pt;line-height:1.6;margin-top:13px}
+  .mt{font-size:9.5pt;line-height:1.4}
+  .mr{padding:10px}
+  .contact{font-size:9pt;margin-top:20px}
+  .sec,.hero{
+    width:13.333in;height:7.5in;padding:var(--vpad) var(--pad);
+    page-break-after:always;break-after:page;
+    display:flex;flex-direction:column;justify-content:center;
+    border-bottom:0;overflow:hidden;
+  }
+  .wrap{width:100%;max-width:none}
+  .sec:last-of-type{page-break-after:auto;break-after:auto}
+  .sec.dark{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .cols,.cols.lean{grid-template-columns:1fr 1fr!important}
+  .funnel,.stats{grid-template-columns:repeat(4,1fr)!important}
+  .asks{grid-template-columns:repeat(3,1fr)!important}
+  .row{grid-template-columns:190px 1fr!important}
+  .noprint{display:none!important}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* light cards keep dark text regardless of section */
+.sec.dark .fstep,.sec.dark .stat,.sec.dark .ask,.sec.dark .mock{color:var(--ink)}
+.sec.dark .fstep .n,.sec.dark .stat .n{color:var(--ink)}
+.sec.dark .fstep .l,.sec.dark .stat .l,.sec.dark .ask .d{color:var(--slate)}
+.sec.dark .ask .d{color:var(--ink-2)}
+.sec.dark .ask .d b{color:var(--ink)}
+.sec.dark .stat.hi .n{color:var(--flag)}
+</style>
+</head>
+<body>
+
+<!-- 01 HERO — front-loaded: thesis + strongest numbers -->
+<header class="hero">
+<div class="wrap">
+  <div class="brandline">
+    <div>
+      <div class="wordmark">Faultline</div>
+      <div class="readtime" style="margin-top:6px">2 min read · August 2026</div>
+    </div>
+    <div class="sod">
+      <div class="cell"><span class="k">S</span><span class="v">9</span></div>
+      <div class="cell"><span class="k">O</span><span class="v">6</span></div>
+      <div class="cell"><span class="k">D</span><span class="v">5</span></div>
+      <div class="cell hi"><span class="k">AP</span><span class="v">HI</span></div>
+    </div>
+  </div>
+
+  <h1>Aerospace hardware can't fly until someone writes down every way it can fail.</h1>
+  <p class="lede">That document is an FMEA. Under human-rated standards, every failure mode on it gets life-cycled on a test stand — so the list isn't paperwork, it's the test campaign. Today it's written by hand in spreadsheets. <b>Faultline drafts it. The engineer signs it.</b></p>
+  <p class="lede" style="margin-top:14px"><b>The wedge is teams that are both unblocked and gated</b> — running real propellant through formal review gates, with no export-control regime preventing me from serving them. <b>All ten I've mapped are university programmes.</b> They have real hardware and near-zero budget: they're the right first users because they'll tell me when the output is wrong, not because they'll pay. <b>Revenue comes later, from a different cohort.</b></p>
+
+  <div class="funnel" style="margin-top:clamp(26px,4vw,42px)">
+    <div class="fstep"><div class="n">56</div><div class="l">Technical conversations with people who build flight hardware</div></div>
+    <div class="fstep"><div class="n">18</div><div class="l">Companies incl. Blue Origin, SpaceX, NASA, Rocket Lab, Relativity</div></div>
+    <div class="fstep"><div class="n">8</div><div class="l">Weeks from first line of code to working product</div></div>
+    <div class="fstep"><div class="n">1</div><div class="l">Engineer who owns real hardware has agreed to review output on her own subsystem. Still zero users — the gap, named on 07</div></div>
+  </div>
+</div>
+</header>
+
+<!-- 02 PROBLEM -->
+<section class="sec tint"><div class="wrap">
+  <div class="dc"><span class="n">02</span><span>Faultline</span><span class="t">The problem</span></div>
+  <div class="cols lean">
+    <div>
+      <p class="pull">“Figuring out what could break is actually the easy part. The real, painful work is almost always the paperwork, the traceability, and getting everyone to agree on it.”</p>
+      <div class="attrib"><b>Safety &amp; Mission Assurance</b>Orion program · NASA · 15 years</div>
+    </div>
+    <div>
+      <div class="colhead">Why it costs money, not just hours</div>
+      <ul class="tight">
+        <li><b>Miss a mode</b> and that failure path is never tested. It flies untested.</li>
+        <li><b>Invent a junk one</b> and you burn real time on a real test stand.</li>
+        <li>Weeks of senior engineering time per subsystem — and it's the work everyone defers until a review forces it.</li>
+        <li>The tooling that exists stores an FMEA you already wrote. Nothing helps you <b>produce the reasoning</b>, which is the expensive part.</li>
+      </ul>
+      <p class="note">“If you can't defend the paper trail with rock-solid evidence, the analysis basically doesn't exist.” — same engineer</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 03 PRODUCT -->
+<section class="sec"><div class="wrap">
+  <div class="dc"><span class="n">03</span><span>Faultline</span><span class="t">What it is</span></div>
+  <div class="cols">
+    <div>
+      <div class="eyebrow">AI proposes · engineer disposes</div>
+      <h2>The control structure is the product.</h2>
+      <ul class="tight" style="margin-top:20px">
+        <li>Describe a subsystem. It drafts the failure modes, <b>each with the reasoning written out.</b></li>
+        <li>Every severity, occurrence and detection score is <b>anchored to a published rubric with a written justification.</b></li>
+        <li>The engineer accepts, rewrites or deletes <b>every line</b>, and signs it.</li>
+        <li>The export keeps a <b>full diff</b> of what the model proposed against what the engineer changed.</li>
+        <li>The occurrence floor is <b>enforced in code.</b> The model can't be optimistic about failure probability. Only the human can.</li>
+      </ul>
+      <p class="note">Output: 28-column CSV and a report-grade PDF built for design reviews.</p>
+    </div>
+    <div>
+      <div class="mock">
+        <div class="mh"><span>Failure mode</span><span class="r">Cryo LOX isolation valve</span></div>
+        <div class="mr">
+          <div class="ml">Mode</div>
+          <div class="mt">Loss of isolation — poppet held off the seat when commanded closed, allowing gross LOX flow past the 'closed' valve.</div>
+        </div>
+        <div class="mr">
+          <div class="ml">Why this applies here</div>
+          <div class="mt dim">Closure force comes only from the return spring, so a particle on the PCTFE seat, ice from 90–290 K cycling, or galling of the guide defeats sealing entirely. There is no actuation assist on the closing stroke.</div>
+        </div>
+        <div class="mr">
+          <div class="ml">Severity 9 — justification</div>
+          <div class="mt dim">Uncontrolled oxidiser into a just-shut-down engine. Credible loss of vehicle. No public-exposure path supported, so S9 not S10.</div>
+        </div>
+        <div class="ms">
+          <div class="sod sm">
+            <div class="cell"><span class="k">S</span><span class="v">9</span></div>
+            <div class="cell"><span class="k">O</span><span class="v">6</span></div>
+            <div class="cell"><span class="k">D</span><span class="v">5</span></div>
+          </div>
+          <span class="tag">Critical · awaiting disposition</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 04 EVIDENCE -->
+<section class="sec dark"><div class="wrap">
+  <div class="dc"><span class="n">04</span><span>Faultline</span><span class="t">How I know it's real</span></div>
+  <h2 style="max-width:32ch">I cold-messaged my way into the industry from Cairo. 29% replied.</h2>
+  <p class="lede" style="max-width:66ch">I never mentioned the product — I asked what they'd actually done and where it hurt. The <b>three-part gap</b> twelve of them named independently: <b>failure modes that don't connect across subsystems</b>, <b>failure knowledge that can't be retrieved when it's needed</b>, and <b>analysis that isn't tied back to requirements and verification.</b></p>
+  <div class="funnel" style="margin-top:28px">
+    <div class="fstep"><div class="n">373</div><div class="l">Cold messages sent</div></div>
+    <div class="fstep"><div class="n">108</div><div class="l">Replied · 29%</div></div>
+    <div class="fstep"><div class="n">56</div><div class="l">Substantive technical conversations</div></div>
+    <div class="fstep"><div class="n">12</div><div class="l">Own failure analysis as a named part of the job</div></div>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="n">27</div><div class="l">Working professionals</div></div>
+    <div class="stat"><div class="n">18</div><div class="l">Companies</div></div>
+    <div class="stat"><div class="n">12</div><div class="l">Independently named the same three-part gap</div></div>
+    <div class="stat hi"><div class="n">10</div><div class="l">Student teams running formal failure reviews</div></div>
+  </div>
+  <p class="note">Recounted in August under a stricter standard than my first pass: every one of the 12 traces to a verbatim quote in their own words, and anything I elicited rather than they volunteered was excluded. Two figures got smaller. Both appear here as recounted.</p>
+</div></section>
+
+<!-- 05 IN THEIR WORDS -->
+<section class="sec"><div class="wrap">
+  <div class="dc"><span class="n">05</span><span>Faultline</span><span class="t">In their words</span></div>
+  <h2 style="margin-bottom:22px">The convergence that set the roadmap.</h2>
+  <p class="note" style="margin-top:-6px;margin-bottom:20px">Quotes are verbatim. Names withheld — these are working engineers describing internal process, not endorsements of a product. Every one is on record and I'll substantiate any of them on request.</p>
+  <div class="rows">
+    <div class="row">
+      <div class="who"><b>Aerospace Quality Engineer</b>Runs FMEA and MRB<br>GE Aerospace</div>
+      <div class="quote">“The most painful and slow part of the FMEA process is <em>finding the applicable failure points</em> in a production process. Especially because they get very repetitive.”</div>
+    </div>
+    <div class="row">
+      <div class="who"><b>Integration &amp; Test Specialist</b>Falcon 9 Stage 2 final<br>SpaceX</div>
+      <div class="quote">“A good way to think about dispositioning issues is <em>you're like a lawyer.</em> The more effective you are at presenting your case, the less questions will be asked.”</div>
+    </div>
+    <div class="row">
+      <div class="who"><b>Propulsion Test Engineer</b>Ex-Blue Origin Test Director<br>Firefly Aerospace</div>
+      <div class="quote">“The information is written down but I need to know it all because <em>when it's needed, I don't have time to find it and read it.</em>”</div>
+    </div>
+    <div class="row">
+      <div class="who"><b>Lead Engineer · Test Director</b>Engine and facility test<br>Blue Origin</div>
+      <div class="quote">“The team handles PHAs for the facility and engine testing and typically this breaks down into <em>FMECA/FMEA style hazard and failure mode analysis.</em>”</div>
+    </div>
+    <div class="row">
+      <div class="who"><b>Responsible Engineer</b>Propulsion fluids<br>Stoke Space</div>
+      <div class="quote">“Publishing clear allowables somewhere everyone can find them is something we sort of do, but <em>it isn't really tied to the specific part numbers</em> super well.”</div>
+    </div>
+    <div class="row">
+      <div class="who"><b>Sr Mission Manager</b>25+ missions · ex-recovery<br>SpaceX</div>
+      <div class="quote">“I have seen lessons learned just once and issue never repeated… I have also seen the same lesson learned multiple times. <em>All depends on how good teams are at recording, tracking, implementing these improvements.</em>”</div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 06 REVIEWS -->
+<section class="sec tint"><div class="wrap">
+  <div class="dc"><span class="n">06</span><span>Faultline</span><span class="t">What they said about the output</span></div>
+  <div class="cols lean">
+    <div>
+      <p class="pull" style="font-size:clamp(22px,3vw,38px);max-width:26ch">“You have good explainability, but not quite provenance yet.”</p>
+      <div class="attrib"><b>Systems Engineer</b>MBSE knowledge management · NASA Glenn</div>
+      <p class="lede" style="font-size:clamp(15px,1.5vw,17px)">He then specified the data model to fix it — design input → failure mechanism → derived requirement → verification activity → evidence, each relationship explicitly typed so a design change only invalidates the claims that depend on it — and agreed to review the implementation.</p>
+    </div>
+    <div>
+      <div class="colhead">Thirteen people have the output. Three reviewed it properly.</div>
+      <ul class="tight">
+        <li><b>A test operations engineer</b> at a propulsion startup, previously BE-7 Test RE at Blue Origin. Proposed tying the modes into a fault tree with mission failure at the top, driving the requirements the vehicle is verified against. That is now the roadmap.</li>
+        <li><b>A systems engineer</b> doing MBSE knowledge management at NASA Glenn. The architectural review above. Told me to prioritise provenance over everything else I was working on.</li>
+        <li><b>A propulsion engineer</b> who has run FMECAs in industry and on a university liquid-engine team. Rejected the premise: “don't use AI to write a failure analysis for you.” Then landed on <b>“you can use it for an opinion but not a final option,”</b> which is the product's own position.</li>
+      </ul>
+      <p class="note">Six received it and never replied. My read: the ask was wrong, not the artifact. I sent a generic valve and asked busy engineers to review a stranger's document with nothing in it for them. The three who did engage all had a specific reason to — one had built the exact thing, one works on traceability, one runs the process. Targeted asks convert; broadcast ones don't.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 07 THE GAP -->
+<section class="sec"><div class="wrap">
+  <div class="dc"><span class="n">07</span><span>Faultline</span><span class="t">The honest gap</span></div>
+  <div class="eyebrow">Say it before you're asked</div>
+  <h1 style="max-width:20ch;font-size:clamp(30px,5.2vw,60px)">No users. Nobody has run it on their own hardware.</h1>
+  <div class="cols" style="margin-top:30px">
+    <div>
+      <div class="colhead flag">Why</div>
+      <ul class="tight">
+        <li>The engineers who feel this most are at SpaceX, Blue Origin and NASA. <b>ITAR means they legally cannot</b> put controlled hardware data into an outside tool built by a foreign person.</li>
+        <li>So I've used them differently: <b>they tell me where the analysis is wrong.</b> That's approach validation, not demand proof — and I'd rather name the difference than blur it.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="colhead">What closes it</div>
+      <ul class="tight">
+        <li><b>Unblocked AND gated.</b> Not every reachable team needs this — most don't, and slide 08 says so. The ten that do run real propellant through formal review gates and have already walked me through their process. <b>One has agreed to review output on a fluids component she owns</b> — that thread is live now. Target: three teams running it on their own hardware, and one document defended at a real review gate, <b>by end of Q4 2026.</b></li>
+        <li><b>Classification, not company name, decides who I can serve.</b> Components under EAR 9x515 or EAR99 are servable today, and the deemed-export route there reaches non-employees. Components on the USML need an authorization the customer has to sponsor — which is a commercial constraint, not a legal impossibility.</li>
+        <li><b>Architecture handles the data question.</b> Deployed inside the customer's own environment, the customer is the exporter of its own data and I'm not in the chain. Both agencies have said so. GroundControl, a YC company selling to this same buyer, took the FedRAMP version of that road.</li>
+        <li><b>What architecture doesn't fix is who's in the room.</b> Prime supplier certifications require a US-person representative on customer-facing technical work. That's the real gate, and a US-person cofounder is necessary for it — but not sufficient on its own, and I'd rather say that than pretend one hire clears it.</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<!-- 08 ICP -->
+<section class="sec tint"><div class="wrap">
+  <div class="dc"><span class="n">08</span><span>Faultline</span><span class="t">Who it's for</span></div>
+  <h2 style="max-width:32ch">The boundary isn't company size. It's whether one person can still hold the whole system in their head.</h2>
+  <div class="cols" style="margin-top:28px">
+    <div>
+      <div class="colhead">Above the line — the buyer</div>
+      <ul class="tight">
+        <li>Reliability, mission assurance, product assurance and quality engineers who <b>author and defend these documents.</b></li>
+        <li>Demand lives wherever <b>an outside body, a customer, or a standard</b> makes formal failure analysis mandatory — human-rating requirements, AS9100, customer qual gates.</li>
+        <li>Teams running real propellant and real test stands, who already keep a structured risk list and use it to decide what gets tested.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="colhead flag">Below it — not the buyer, and I'll say so</div>
+      <ul class="tight">
+        <li>“We were well aware of all the risks. All the teams are always in close contact… <b>filling in the matrix just felt like a formality.</b>”</li>
+        <li>“Forcing it on us right now would <b>just be theater.</b>”</li>
+        <li>Six teams told me plainly they don't run formal FMEAs. <b>Knowing who doesn't need this is how I know who does.</b></li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<!-- 09 COMPETITION + MONEY -->
+<section class="sec"><div class="wrap">
+  <div class="dc"><span class="n">09</span><span>Faultline</span><span class="t">Competition &amp; market</span></div>
+  <div class="cols">
+    <div>
+      <div class="colhead">What I'm really competing with</div>
+      <ul class="tight">
+        <li><b>Excel plus a senior engineer's memory.</b> That's what almost every team actually uses. A vehicle systems safety engineer at Blue Origin put it plainly: <em>“in the industry today, there is no one way that is known as the correct way to do it. A lot of what is being used is trial and error.”</em></li>
+        <li><b>Relyence, Isograph, APIS IQ-FMEA</b> — real tools, but databases. Places to store an FMEA you already wrote.</li>
+        <li><b>Ansys medini, Siemens Polarion, PLATO</b> — serious safety-analysis suites, but built around automotive and IEC/ISO functional-safety workflows and sold top-down into large organisations.</li>
+        <li><b>SpaceGrade</b> — AI across the aerospace stack, FMEA as one item in a long feature list. They can add depth faster than I can add distribution — <b>which is why the wedge is depth in one workflow, not breadth.</b> A platform that treats FMEA as a checkbox produces output nobody signs, and the thing that makes it signable — anchored rubrics, an enforced floor, a proposed-versus-signed diff, a trace a review board accepts — is the whole product, not a feature.</li>
+        <li><b>The real threat: a customer's own team wiring an LLM to their Excel template over a weekend.</b> That produces modes. It doesn't produce anchored scoring, an enforced occurrence floor, a diff of what the model proposed versus what the engineer changed, or a trace that survives a review board. That gap is the product.</li>
+        <li><b>GroundControl</b> (YC) — AS9102 first-article inspection. Same buyer, opposite end of the lifecycle: proving a part was built to spec after it exists. I'm upstream, on the reasoning about what could fail.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="colhead">Money</div>
+      <ul class="tight">
+        <li>Priced <b>per program or per review gate</b>, not per seat — reliability is a thin slice of headcount, but the budget sits with the program that can't fly without the document. Published reliability tools run roughly $5–10k per seat per year as a floor reference.</li>
+        <li>~10,000 AS9100-certified US sites plus ~9,000 US aerospace and defence establishments, each running <b>multiple gated programs per year.</b> Every human-rated or customer-qualified program is a recurring obligation, not a one-time seat.</li>
+        <li>Aerospace is the hardest version of a problem <b>legally mandated in much bigger industries:</b> AIAG-VDA across automotive, ISO 14971 for medical devices, plus energy and rail. Strictest first is the easy direction of travel.</li>
+        <li><b>What compounds, precisely.</b> Not cross-customer data — controlled data never leaves the boundary, so I won't claim a network effect I can't have. What compounds is the <b>rubric and failure-mode taxonomy</b> built from public standards and published mishap reports, plus <b>per-customer accumulation inside their own instance:</b> every accept, edit and reject makes their analysis library better for them. That's a switching cost, and it's the honest version.</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<!-- 10 ASK -->
+<section class="sec dark"><div class="wrap">
+  <div class="dc"><span class="n">10</span><span>Faultline</span><span class="t">Where I am · what I need</span></div>
+  <h2 style="max-width:32ch">Built solo in eight weeks. I'm seventeen, still in high school, and not going to university.</h2>
+  <p class="lede">Before this I spent a year taking NOVA-1, a two-stage fully reusable heavy-lift launch vehicle, from a blank page through a complete preliminary design review — about twenty documents across propulsion, structures, trajectory, GNC, avionics, recovery, thermal protection and cost — then ran an adversarial audit against my own work to find where I'd fudged the numbers. The failure analysis was the part that nearly stopped me. Faultline came out of that.</p>
+  <div class="asks">
+    <div class="ask">
+      <div class="t">Who carries the liability</div>
+      <div class="d">If a drafted mode is missed and hardware is lost, <b>the engineer who signed it carries it</b> — same as today. Nothing exports unsigned. Every score is anchored to a published rubric, the occurrence floor is enforced in code so the model can't be optimistic, and the export keeps a diff of what was proposed against what was changed. <b>The audit trail is stronger than a spreadsheet's, not weaker.</b></div>
+    </div>
+    <div class="ask">
+      <div class="t">Cofounder — status, not aspiration</div>
+      <div class="d">A <b>reliability or mission assurance engineer</b> who has authored and defended FMEAs in a real program. 30% reserved. Honest status: <b>no offer made and no candidate in process.</b> The 56 conversations have doubled as the filter, and three people have engaged deeply enough to be worth a real approach once there's a user.</div>
+    </div>
+    <div class="ask">
+      <div class="t">What I'm asking for</div>
+      <div class="d">Not money yet — <b>no entity, so I can't take it.</b> I'm asking for intros to <b>teams that own unclassified hardware</b> and are gated by a customer or standard. <b>Three teams running it on their own hardware, and one document defended at a review gate.</b> That's the milestone that changes this from a good analysis into a company, and it's what I'd raise against.</div>
+    </div>
+  </div>
+  <div class="contact">
+    <span><b>Eyad Selim</b> · Founder</span>
+    <span>eyads8651@gmail.com</span>
+    <span>eyad46.github.io</span>
+    <span>linkedin.com/in/eyad-selim-774051243</span>
+  </div>
+</div></section>
+
+</body>
+</html>
