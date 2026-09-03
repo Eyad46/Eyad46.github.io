@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html><head>
+<meta name='viewport' content='width=device-width,initial-scale=1'>
+<title>Faultline — FMEA extract</title><meta charset="utf-8">
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap' rel='stylesheet'>
+<style>
+
+@page{size:Letter;margin:13mm 14mm 11mm 14mm;}
+@media screen{html{background:#E8ECEF;}body{max-width:780px;margin:24px auto;padding:34px 30px;background:#fff;box-shadow:0 2px 18px rgba(0,0,0,.13);}}
+
+:root{
+  --ink:#0E1319; --paper:#FFFFFF; --muted:#3E4A57;
+  --rule:#C9D0D7; --soft:#F2F5F7; --crit:#96201A;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Space Grotesk',system-ui,sans-serif;color:var(--ink);background:var(--paper);
+     font-size:7.4pt;line-height:1.32;}
+
+/* masthead */
+.mast{display:flex;align-items:flex-end;justify-content:space-between;
+      border-bottom:1.8pt solid var(--ink);padding-bottom:5pt;}
+.wm{font-weight:700;font-size:17pt;letter-spacing:-.02em;}
+.wm span{font-weight:400;color:var(--muted);letter-spacing:.18em;font-size:7.6pt;
+         font-family:'IBM Plex Mono';margin-left:9pt;text-transform:uppercase;}
+.rt{font-family:'IBM Plex Mono';font-size:7.2pt;line-height:1.45;color:var(--muted);text-align:right;}
+
+/* doc control */
+.ctrl{display:flex;border-bottom:.7pt solid var(--rule);background:var(--soft);color:var(--ink);}
+.ctrl div{padding:4pt 7pt;border-right:.7pt solid var(--rule);flex:1;}
+.ctrl div:last-child{border-right:none;}
+.k{font-family:'IBM Plex Mono';font-size:6.1pt;letter-spacing:.14em;text-transform:uppercase;
+   color:var(--muted);display:block;margin-bottom:1pt;}
+.v{font-size:8.2pt;font-weight:500;}
+
+.frame{padding:5pt 0 5.5pt;border-bottom:.7pt solid var(--rule);}
+.frame b{font-weight:700;}
+
+.item{padding:5pt 0 5.5pt;border-bottom:1.2pt solid var(--ink);}
+.row{display:flex;margin-bottom:3.5pt;}
+.row:last-child{margin-bottom:0;}
+.lbl{font-family:'IBM Plex Mono';font-size:6.1pt;letter-spacing:.14em;text-transform:uppercase;
+     color:var(--muted);width:74pt;flex:0 0 74pt;padding-top:1.6pt;}
+.txt{flex:1;}
+
+/* mode */
+.mode{padding:6pt 0 6pt;border-bottom:.7pt solid var(--rule);}
+.mh{display:flex;align-items:flex-start;gap:9pt;margin-bottom:5pt;}
+.mnum{font-family:'IBM Plex Mono';font-size:7.6pt;color:var(--muted);padding-top:2.4pt;}
+.mname{flex:1;font-size:10.4pt;font-weight:700;line-height:1.26;}
+.sod{display:flex;gap:3pt;align-items:center;flex-wrap:wrap;justify-content:flex-end;
+     flex:0 0 196pt;}
+.cell{background:var(--ink);color:#FFFFFF;font-family:'IBM Plex Mono';font-size:6.4pt;
+      padding:2.4pt 4.4pt;text-align:center;line-height:1.12;letter-spacing:.04em;}
+.cell b{display:block;font-size:10.2pt;font-weight:600;letter-spacing:0;}
+.cell.lite{background:var(--soft);color:var(--ink);border:.7pt solid var(--rule);}
+.tag{font-family:'IBM Plex Mono';font-size:6.2pt;letter-spacing:.11em;text-transform:uppercase;
+     padding:2.2pt 4.4pt;border:.7pt solid var(--crit);color:var(--crit);}
+.tag.n{border-color:var(--rule);color:var(--muted);}
+
+.f{display:flex;margin-bottom:3pt;}
+.fl{font-family:'IBM Plex Mono';font-size:6.1pt;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--muted);width:74pt;flex:0 0 74pt;padding-top:1.6pt;}
+.fx{flex:1;}
+.fx em{font-style:normal;font-family:'IBM Plex Mono';font-size:7.4pt;color:var(--muted);}
+.fx sup{font-family:'IBM Plex Mono';font-size:5.8pt;color:var(--crit);vertical-align:super;font-weight:600;}
+.arw{font-family:'IBM Plex Mono';color:var(--muted);}
+
+.score{border-left:2pt solid var(--ink);padding-left:8pt;margin:6pt 0 0 74pt;}
+.sline{margin-bottom:2.6pt;}
+.sline:last-child{margin-bottom:0;}
+.sk{font-family:'IBM Plex Mono';font-weight:600;font-size:8.2pt;letter-spacing:.03em;}
+.anch{font-family:'IBM Plex Mono';font-size:7.6pt;color:var(--muted);}
+.lc{font-family:'IBM Plex Mono';font-size:6.1pt;letter-spacing:.1em;color:var(--crit);
+    border:.7pt solid var(--crit);padding:.8pt 2.6pt;white-space:nowrap;}
+
+.act{background:var(--soft);padding:4.5pt 8pt;margin:6pt 0 0 74pt;}
+
+.else{padding:4.5pt 0 5pt;border-bottom:.7pt solid var(--rule);color:var(--muted);font-size:7.5pt;line-height:1.36;}
+.elk{font-family:'IBM Plex Mono';font-size:6.1pt;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);margin-right:6pt;}
+.sr{padding:6pt 0 5pt;border-bottom:1.2pt solid var(--ink);}
+.srh{font-family:'IBM Plex Mono';font-size:6.6pt;letter-spacing:.16em;text-transform:uppercase;
+     margin-bottom:5pt;font-weight:600;}
+.sr ol{margin-left:13pt;}
+.sr li{margin-bottom:3.5pt;}
+.sr li:last-child{margin-bottom:0;}
+
+.foot{padding-top:5pt;font-family:'IBM Plex Mono';font-size:6.8pt;line-height:1.5;color:var(--muted);
+      display:flex;justify-content:space-between;gap:16pt;}
+.foot b{color:var(--ink);font-weight:600;}
+</style></head><body>
+
+<div class="mast">
+  <div class="wm">FAULTLINE<span>FMEA extract</span></div>
+  <div class="rt">AI proposes, engineer disposes<br>Every field is a draft until signed</div>
+</div>
+
+<div class="ctrl">
+  <div><span class="k">Item</span><span class="v">Cryogenic LOX isolation valve</span></div>
+  <div><span class="k">Analysis</span><span class="v">DFMEA &middot; component level</span></div>
+  <div><span class="k">Basis</span><span class="v">Generic reference case, no program data</span></div>
+  <div><span class="k">Full analysis</span><span class="v">24 modes &middot; 21 critical &middot; 1 shown in full</span></div>
+</div>
+
+<div class="frame">
+  <b>What this is.</b> One failure mode lifted unedited from a 24-mode analysis this tool drafted for one component &mdash; the reasoning for why it applies to <em>this</em> part, a traced effect chain, physical causes, and S/O/D anchored to a published rubric row with a written justification. Controls are marked <sup>s</sup>&nbsp;stated in the input or <sup>a</sup>&nbsp;assumed by the draft and flagged for confirmation. The engineer accepts, rewrites or deletes every line and signs it.
+</div>
+
+<div class="item">
+  <div class="row"><div class="lbl">Functions</div><div class="txt">Leak-tight isolation when closed &middot; pass rated flow at low &Delta;P when open &middot; transition within the required response time &middot; hold position under vibration and thermal cycling &middot; maintain the pressure boundary &middot; fail safe closed on loss of actuation &middot; report position to avionics.</div></div>
+  <div class="row"><div class="lbl">Environment</div><div class="txt">0&ndash;50 bar &Delta;P, MEOP 50 bar &middot; 90 K flowing LOX to ~290 K ambient, repeated ground-to-flight cycling &middot; &ge;100 cycles over 10 missions, qual to 4&times; life &middot; ~14.1 Grms ascent random vibration plus pyro shock &middot; particulate-sensitive, LOX-clean required. <b>Materials:</b> Inconel 718 body/poppet, 316L internals, PCTFE (Kel-F 81) seat, Elgiloy/302 SS spring, spring-energised PTFE dynamic seals.</div></div>
+</div>
+
+<div class="else"><span class="elk">Elsewhere in the same analysis</span> Gross LOX flow past the closed valve when the poppet is held off the seat (S9) &middot; external leakage past the dynamic stem seal into the actuator cavity (S9) &middot; transient unseating under pyro shock (S9) &middot; ignition-promoting particulate from seat and guide wear (S9) &middot; erroneous valve state reported to avionics (S8) &middot; and 19 more.</div>
+
+<div class="mode">
+  <div class="mh">
+    <div class="mnum">02</div>
+    <div class="mname">Gross loss of external pressure boundary &mdash; valve body or body-weld structural breach under LOX pressure up to 50&nbsp;bar MEOP.</div>
+    <div class="sod">
+      <div class="cell">S<b>9</b></div><div class="cell">O<b>4</b></div><div class="cell">D<b>8</b></div>
+      <div class="cell lite">RPN<b>288</b></div><div class="cell lite">AP<b>Hi</b></div>
+      <div class="tag">Critical</div><div class="tag n">Pending</div>
+    </div>
+  </div>
+  <div class="f"><div class="fl">Why here</div><div class="fx">The body is Inconel 718 carrying 50&nbsp;bar MEOP while cycling between ~290&nbsp;K and 90&nbsp;K over 10 reuse missions &mdash; a combination that drives thermal-mechanical fatigue at welds and section transitions. Because the fluid is LOX, any breach releases a strong oxidiser into the aft compartment rather than an inert fluid. The rationale fails if the fluid were inert, the duty single-use, or the pressure low.</div></div>
+  <div class="f"><div class="fl">Effect</div><div class="fx">Through-wall crack or rupture of the body or weld; LOX and GOX escape the boundary at up to 50&nbsp;bar. <span class="arw">&rarr;</span> High-rate LOX release into the stage-2 aft compartment; loss of feed-line pressure to the turbopump; oxygen-enriched environment around hot engine hardware. <span class="arw">&rarr;</span> Uncontained LOX release, credible immediate fire during ascent &mdash; loss of vehicle.</div></div>
+  <div class="f"><div class="fl">Causes</div><div class="fx">Weld defect (lack of fusion, porosity) in the body closure or flange weld acting as a crack initiator, propagated by combined 0&ndash;50&nbsp;bar pressure cycles and 90&ndash;290&nbsp;K thermal cycles over 10 missions &mdash; a subcritical flaw that passes initial proof can grow to critical size between flights. <span class="arw">|</span> Low-cycle fatigue at the flange-to-body transition from repeated chilldown thermal shock &mdash; a classic cryo-valve crack driver at thick-to-thin transitions.</div></div>
+  <div class="f"><div class="fl">Controls</div><div class="fx"><em>Prevent:</em> qual to 4&times; life incl. pressure and thermal cycling<sup>s</sup> &middot; material certs and heat-treat verification, IN718 body<sup>a</sup> &middot; weld NDI at manufacture and each refurbishment<sup>a</sup> &middot; controlled chilldown rate<sup>a</sup>. &nbsp;<em>Detect:</em> proof-pressure test and helium leak check at acceptance and each refurbishment<sup>a</sup> &middot; feed-line / tank pressure telemetry, downstream effect only<sup>a</sup>.</div></div>
+  <div class="score">
+    <div class="sline"><span class="sk">S 9</span> <span class="anch">&mdash; loss of vehicle, no public risk.</span> End effect is uncontained LOX release and fire during ascent. Debris is assumed contained within the range-safety exclusion corridor, so 9 rather than 10. No credit taken for proof test or NDI.</div>
+    <div class="sline"><span class="sk">O 4</span> <span class="anch">&mdash; ~1 in 20,000.</span> <span class="lc">LOW CONFIDENCE</span> Structural burst of a proof-designed IN718 body requires a manufacturing escape plus cycle-driven crack growth &mdash; rare but credible for reusable cryo hardware. No test or flight history provided, and the enforced occurrence floor prevents scoring lower on assumption alone.</div>
+    <div class="sline"><span class="sk">D 8</span> <span class="anch">&mdash; operational anomaly evident only via downstream effects.</span> <b>Raised from 7 by self-review</b> (note 1 below). Crack initiation is catchable only by NDI and proof at refurbishment, both assumed controls; final fracture in flight has effectively no detection before the consequence, and a ground-only check cannot claim a lower D for a mode whose onset occurs between inspections in reuse.</div>
+  </div>
+  <div class="act"><span class="sk">Recommended action</span> &nbsp;Establish a fracture-control plan for the body: fracture-mechanics life analysis against an NDI-detectable initial flaw size, mandatory weld NDI plus proof and helium leak check at every refurbishment, and chilldown rate limits.</div>
+</div>
+
+<div class="sr">
+  <div class="srh">The draft auditing itself &mdash; self-review pass, printed as issued</div>
+  <ol>
+    <li><b>Detection credited to a control that does not exist.</b> The mode above originally scored D7 on a justification that leaned on weld NDI &mdash; which appeared only in its recommended action, not in its detection controls, which list an assumed proof test, an assumed helium leak check and downstream telemetry. Detection raised to 8 against itself.</li>
+    <li><b>Coverage gap identified and deliberately not filled.</b> No row in the full analysis examines adiabatic-compression ignition of the PCTFE seat itself during rapid pressurisation of the closed valve &mdash; a recognised oxygen-component ignition class grounded in this item&rsquo;s polymer seat, oxygen service and stated pressure transients. Handed to the engineer rather than invented.</li>
+  </ol>
+</div>
+
+<div class="foot">
+  <div><b>Occurrence is floored in code.</b> With no test history the model may not score a low probability &mdash; it is held at the floor and flagged low-confidence. Only the engineer may be optimistic about failure rate.</div>
+  <div style="text-align:right;flex:0 0 auto;"><b>AI proposes, engineer disposes.</b><br>Every field above is a draft until the responsible<br>engineer accepts, rewrites or deletes it and signs.</div>
+</div>
+
+</body></html>
