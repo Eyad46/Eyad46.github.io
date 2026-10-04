@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Faultline — Failure analysis software for aerospace hardware</title>
-<meta name="description" content="Faultline drafts FMEAs, the failure analysis documents aerospace hardware teams must produce before anything flies. AI proposes, engineer disposes.">
+<title>Faultline: failure analysis software for aerospace hardware</title>
+<meta name="author" content="Eyad Selim">
+<meta name="description" content="Faultline drafts FMEAs, the failure analysis aerospace hardware teams must produce before hardware goes into production. AI proposes, engineer disposes.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
@@ -46,7 +47,7 @@ body{
 .sec.dark .funnel,.sec.dark .stats,.sec.dark .asks{background:#39414A;border-color:#39414A}
 .sec.tint{background:var(--paper-2);color:var(--ink)}
 
-/* document-control header — structural device */
+/* document-control header: structural device */
 .dc{
   display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 16px;
   font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:13.5px;
@@ -251,17 +252,34 @@ ul.tight li b{color:var(--ink);font-weight:600}
 .sec.dark .ask .d{color:var(--ink-2)}
 .sec.dark .ask .d b{color:var(--ink)}
 .sec.dark .stat.hi .n{color:var(--flag)}
+
+/* print fit: every slide stays inside its page margins */
+@media print{
+  .hero .brandline{margin-bottom:20px}
+  .hero h1{font-size:36pt}
+  .hero .lede{max-width:92ch}
+  .hero .funnel{margin-top:18px!important}
+  .quotes h2{margin-bottom:10px!important;max-width:none}
+  .quotes .row .who{font-size:8.5pt;line-height:1.4}
+  .quotes .note{margin-bottom:12px!important}
+  .quotes .row{grid-template-columns:300px 1fr!important;padding:7px 0}
+  .quotes .row .quote{font-size:11.5pt}
+  .gap h1{font-size:30pt!important}
+  .gap .cols{grid-template-columns:.72fr 1.28fr!important;margin-top:18px!important}
+  .gap ul.tight{gap:7px}
+  .market ul.tight{gap:6px}
+}
 </style>
 </head>
 <body>
 
-<!-- 01 HERO — front-loaded: thesis + strongest numbers -->
+<!-- 01 HERO -->
 <header class="hero">
 <div class="wrap">
   <div class="brandline">
     <div>
       <div class="wordmark">Faultline</div>
-      <div class="readtime" style="margin-top:6px">2 min read · August 2026</div>
+      <div class="readtime" style="margin-top:6px">2 min read · October 2026</div>
     </div>
     <div class="sod">
       <div class="cell"><span class="k">S</span><span class="v">9</span></div>
@@ -271,15 +289,15 @@ ul.tight li b{color:var(--ink);font-weight:600}
     </div>
   </div>
 
-  <h1>Aerospace hardware can't fly until someone writes down every way it can fail.</h1>
-  <p class="lede">That document is an FMEA. Under human-rated standards, every failure mode on it gets life-cycled on a test stand — so the list isn't paperwork, it's the test campaign. Today it's written by hand in spreadsheets. <b>Faultline drafts it. The engineer signs it.</b></p>
-  <p class="lede" style="margin-top:14px"><b>The wedge is teams that are both unblocked and gated</b> — running real propellant through formal review gates, with no export-control regime preventing me from serving them. <b>All ten I've mapped are university programmes.</b> They have real hardware and near-zero budget: they're the right first users because they'll tell me when the output is wrong, not because they'll pay. <b>Revenue comes later, from a different cohort.</b></p>
+  <h1>Aerospace hardware can't go into production until someone writes down every way it can fail.</h1>
+  <p class="lede">That document is an FMEA. Under human-rated standards, every failure mode on it gets life-cycled on a test stand, so the list isn't paperwork: it's the test campaign. Today it's written by hand in spreadsheets. <b>Faultline drafts it. The engineer signs it.</b></p>
+  <p class="lede" style="margin-top:14px"><b>The wedge is the move from development to production.</b> While a team is still developing hardware, it builds, tests and breaks it. Formal failure analysis arrives when the team moves to production or qualification: a customer or standard starts requiring it, and the test data finally exists to score it. <b>The first users are teams at that crossing</b> that no export-control regime stops me from serving.</p>
 
   <div class="funnel" style="margin-top:clamp(26px,4vw,42px)">
-    <div class="fstep"><div class="n">56</div><div class="l">Technical conversations with people who build flight hardware</div></div>
+    <div class="fstep"><div class="n">73</div><div class="l">Technical conversations with people who build flight hardware</div></div>
     <div class="fstep"><div class="n">18</div><div class="l">Companies incl. Blue Origin, SpaceX, NASA, Rocket Lab, Relativity</div></div>
     <div class="fstep"><div class="n">8</div><div class="l">Weeks from first line of code to working product</div></div>
-    <div class="fstep"><div class="n">1</div><div class="l">Engineer who owns real hardware has agreed to review output on her own subsystem. Still zero users — the gap, named on 07</div></div>
+    <div class="fstep"><div class="n">1</div><div class="l">Engineer who owns real fluids hardware agreed to review an output. Still zero users: the gap, named on 07</div></div>
   </div>
 </div>
 </header>
@@ -297,10 +315,10 @@ ul.tight li b{color:var(--ink);font-weight:600}
       <ul class="tight">
         <li><b>Miss a mode</b> and that failure path is never tested. It flies untested.</li>
         <li><b>Invent a junk one</b> and you burn real time on a real test stand.</li>
-        <li>Weeks of senior engineering time per subsystem — and it's the work everyone defers until a review forces it.</li>
-        <li>The tooling that exists stores an FMEA you already wrote. Nothing helps you <b>produce the reasoning</b>, which is the expensive part.</li>
+        <li>Weeks of senior engineering time per subsystem, and it's the work everyone defers until a review forces it.</li>
+        <li>Existing tools store an FMEA, and the newest can now generate the rows. <b>Defending the scores</b> is still left to the engineer, and it's the expensive part.</li>
       </ul>
-      <p class="note">“If you can't defend the paper trail with rock-solid evidence, the analysis basically doesn't exist.” — same engineer</p>
+      <p class="note">“If you can't defend the paper trail with rock-solid evidence, the analysis basically doesn't exist.” (same engineer)</p>
     </div>
   </div>
 </div></section>
@@ -317,6 +335,7 @@ ul.tight li b{color:var(--ink);font-weight:600}
         <li>Every severity, occurrence and detection score is <b>anchored to a published rubric with a written justification.</b></li>
         <li>The engineer accepts, rewrites or deletes <b>every line</b>, and signs it.</li>
         <li>The export keeps a <b>full diff</b> of what the model proposed against what the engineer changed.</li>
+        <li><b>Every claim records what it rests on.</b> Change a design input and exactly the claims that depended on it are flagged for review. (Version 2, in final testing.)</li>
         <li>The occurrence floor is <b>enforced in code.</b> The model can't be optimistic about failure probability. Only the human can.</li>
       </ul>
       <p class="note">Output: 28-column CSV and a report-grade PDF built for design reviews.</p>
@@ -326,14 +345,14 @@ ul.tight li b{color:var(--ink);font-weight:600}
         <div class="mh"><span>Failure mode</span><span class="r">Cryo LOX isolation valve</span></div>
         <div class="mr">
           <div class="ml">Mode</div>
-          <div class="mt">Loss of isolation — poppet held off the seat when commanded closed, allowing gross LOX flow past the 'closed' valve.</div>
+          <div class="mt">Loss of isolation: poppet held off the seat when commanded closed, allowing gross LOX flow past the 'closed' valve.</div>
         </div>
         <div class="mr">
           <div class="ml">Why this applies here</div>
           <div class="mt dim">Closure force comes only from the return spring, so a particle on the PCTFE seat, ice from 90–290 K cycling, or galling of the guide defeats sealing entirely. There is no actuation assist on the closing stroke.</div>
         </div>
         <div class="mr">
-          <div class="ml">Severity 9 — justification</div>
+          <div class="ml">Severity 9: justification</div>
           <div class="mt dim">Uncontrolled oxidiser into a just-shut-down engine. Credible loss of vehicle. No public-exposure path supported, so S9 not S10.</div>
         </div>
         <div class="ms">
@@ -353,35 +372,35 @@ ul.tight li b{color:var(--ink);font-weight:600}
 <section class="sec dark"><div class="wrap">
   <div class="dc"><span class="n">04</span><span>Faultline</span><span class="t">How I know it's real</span></div>
   <h2 style="max-width:32ch">I cold-messaged my way into the industry from Cairo. 29% replied.</h2>
-  <p class="lede" style="max-width:66ch">I never mentioned the product — I asked what they'd actually done and where it hurt. The <b>three-part gap</b> twelve of them named independently: <b>failure modes that don't connect across subsystems</b>, <b>failure knowledge that can't be retrieved when it's needed</b>, and <b>analysis that isn't tied back to requirements and verification.</b></p>
+  <p class="lede" style="max-width:66ch">I asked what they'd actually done and where it hurt, before ever mentioning the product. The <b>three-part gap</b> twelve of them named independently: <b>failure modes that don't connect across subsystems</b>, <b>failure knowledge that can't be retrieved when it's needed</b>, and <b>analysis that isn't tied back to requirements and verification.</b></p>
   <div class="funnel" style="margin-top:28px">
-    <div class="fstep"><div class="n">373</div><div class="l">Cold messages sent</div></div>
-    <div class="fstep"><div class="n">108</div><div class="l">Replied · 29%</div></div>
-    <div class="fstep"><div class="n">56</div><div class="l">Substantive technical conversations</div></div>
+    <div class="fstep"><div class="n">402</div><div class="l">Cold messages sent</div></div>
+    <div class="fstep"><div class="n">118</div><div class="l">Replied · 29%</div></div>
+    <div class="fstep"><div class="n">73</div><div class="l">Substantive technical conversations</div></div>
     <div class="fstep"><div class="n">12</div><div class="l">Own failure analysis as a named part of the job</div></div>
   </div>
   <div class="stats">
-    <div class="stat"><div class="n">27</div><div class="l">Working professionals</div></div>
+    <div class="stat"><div class="n">47</div><div class="l">Industry professionals who replied</div></div>
     <div class="stat"><div class="n">18</div><div class="l">Companies</div></div>
     <div class="stat"><div class="n">12</div><div class="l">Independently named the same three-part gap</div></div>
     <div class="stat hi"><div class="n">10</div><div class="l">Student teams running formal failure reviews</div></div>
   </div>
-  <p class="note">Recounted in August under a stricter standard than my first pass: every one of the 12 traces to a verbatim quote in their own words, and anything I elicited rather than they volunteered was excluded. Two figures got smaller. Both appear here as recounted.</p>
+  <p class="note">Counts as of late September. Conversations were counted thread by thread in a full inbox census, students included. Professionals counts anyone working in industry who replied (September recount). The two 12s come from the stricter August audit: each traces to a verbatim quote in their own words, and anything I elicited rather than they volunteered was excluded.</p>
 </div></section>
 
 <!-- 05 IN THEIR WORDS -->
-<section class="sec"><div class="wrap">
+<section class="sec quotes"><div class="wrap">
   <div class="dc"><span class="n">05</span><span>Faultline</span><span class="t">In their words</span></div>
   <h2 style="margin-bottom:22px">The convergence that set the roadmap.</h2>
-  <p class="note" style="margin-top:-6px;margin-bottom:20px">Quotes are verbatim. Names withheld — these are working engineers describing internal process, not endorsements of a product. Every one is on record and I'll substantiate any of them on request.</p>
+  <p class="note" style="margin-top:-6px;margin-bottom:20px">Quotes are verbatim. Names withheld: these are working engineers describing internal process, not endorsements of a product. Every one is on record and I'll substantiate any of them on request.</p>
   <div class="rows">
     <div class="row">
       <div class="who"><b>Aerospace Quality Engineer</b>Runs FMEA and MRB<br>GE Aerospace</div>
-      <div class="quote">“The most painful and slow part of the FMEA process is <em>finding the applicable failure points</em> in a production process. Especially because they get very repetitive.”</div>
+      <div class="quote">“For me the most painful and slow part of the FMEA process is <em>finding the applicable failure points</em> in a production process. Especially because they get very repetitive.”</div>
     </div>
     <div class="row">
       <div class="who"><b>Integration &amp; Test Specialist</b>Falcon 9 Stage 2 final<br>SpaceX</div>
-      <div class="quote">“A good way to think about dispositioning issues is <em>you're like a lawyer.</em> The more effective you are at presenting your case, the less questions will be asked.”</div>
+      <div class="quote">“A good way to think about dispositioning issues is <em>you're like a lawyer.</em> The more effective you are at presenting ur case, the less questions will be asked.”</div>
     </div>
     <div class="row">
       <div class="who"><b>Propulsion Test Engineer</b>Ex-Blue Origin Test Director<br>Firefly Aerospace</div>
@@ -393,7 +412,7 @@ ul.tight li b{color:var(--ink);font-weight:600}
     </div>
     <div class="row">
       <div class="who"><b>Responsible Engineer</b>Propulsion fluids<br>Stoke Space</div>
-      <div class="quote">“Publishing clear allowables somewhere everyone can find them is something we sort of do, but <em>it isn't really tied to the specific part numbers</em> super well.”</div>
+      <div class="quote">“Publishing clear allowables somewhere everyone can find them (valve number of cycles, max internal pressure rating) is something we sort of do, but <em>it isn't really tied to the specific part numbers</em> super well.”</div>
     </div>
     <div class="row">
       <div class="who"><b>Sr Mission Manager</b>25+ missions · ex-recovery<br>SpaceX</div>
@@ -408,23 +427,24 @@ ul.tight li b{color:var(--ink);font-weight:600}
   <div class="cols lean">
     <div>
       <p class="pull" style="font-size:clamp(22px,3vw,38px);max-width:26ch">“You have good explainability, but not quite provenance yet.”</p>
-      <div class="attrib"><b>Systems Engineer</b>MBSE knowledge management · NASA Glenn</div>
-      <p class="lede" style="font-size:clamp(15px,1.5vw,17px)">He then specified the data model to fix it — design input → failure mechanism → derived requirement → verification activity → evidence, each relationship explicitly typed so a design change only invalidates the claims that depend on it — and agreed to review the implementation.</p>
+      <div class="attrib"><b>Systems engineering student</b>MBSE knowledge management · NASA Glenn</div>
+      <p class="lede" style="font-size:clamp(15px,1.5vw,17px)">He then specified the data model to fix it: design input → failure mechanism → derived requirement → verification activity → evidence, each relationship explicitly typed so a design change only invalidates the claims that depend on it. Version 2, now in final testing, is built on that model, and he has agreed to review it.</p>
     </div>
     <div>
-      <div class="colhead">Thirteen people have the output. Three reviewed it properly.</div>
+      <div class="colhead">Eighteen people have the output. Four reviewed it properly.</div>
       <ul class="tight">
         <li><b>A test operations engineer</b> at a propulsion startup, previously BE-7 Test RE at Blue Origin. Proposed tying the modes into a fault tree with mission failure at the top, driving the requirements the vehicle is verified against. That is now the roadmap.</li>
-        <li><b>A systems engineer</b> doing MBSE knowledge management at NASA Glenn. The architectural review above. Told me to prioritise provenance over everything else I was working on.</li>
+        <li><b>A systems engineering student</b> who did MBSE knowledge management work at NASA Glenn. The architectural review above. Told me to prioritize provenance over everything else I was working on.</li>
         <li><b>A propulsion engineer</b> who has run FMECAs in industry and on a university liquid-engine team. Rejected the premise: “don't use AI to write a failure analysis for you.” Then landed on <b>“you can use it for an opinion but not a final option,”</b> which is the product's own position.</li>
+        <li><b>A composites student</b> who winds solid-motor casings on a university team. Said the reasoning transfers but the mechanism needs a different frame, and laid out the chain: manufacturing process → defect → material property → failure mechanism → system consequence. That chain is part of version 2.</li>
       </ul>
-      <p class="note">Six received it and never replied. My read: the ask was wrong, not the artifact. I sent a generic valve and asked busy engineers to review a stranger's document with nothing in it for them. The three who did engage all had a specific reason to — one had built the exact thing, one works on traceability, one runs the process. Targeted asks convert; broadcast ones don't.</p>
+      <p class="note">Eleven received it and never replied. My read: the ask was wrong, not the artifact. I sent a generic valve and asked busy engineers to review a stranger's document with nothing in it for them. The four who reviewed it all had a specific reason to: one had built the exact thing, one works on traceability, one runs the process, one makes composite parts and tested whether the reasoning transfers. Targeted asks convert; broadcast ones don't.</p>
     </div>
   </div>
 </div></section>
 
 <!-- 07 THE GAP -->
-<section class="sec"><div class="wrap">
+<section class="sec gap"><div class="wrap">
   <div class="dc"><span class="n">07</span><span>Faultline</span><span class="t">The honest gap</span></div>
   <div class="eyebrow">Say it before you're asked</div>
   <h1 style="max-width:20ch;font-size:clamp(30px,5.2vw,60px)">No users. Nobody has run it on their own hardware.</h1>
@@ -432,17 +452,17 @@ ul.tight li b{color:var(--ink);font-weight:600}
     <div>
       <div class="colhead flag">Why</div>
       <ul class="tight">
-        <li>The engineers who feel this most are at SpaceX, Blue Origin and NASA. <b>ITAR means they legally cannot</b> put controlled hardware data into an outside tool built by a foreign person.</li>
-        <li>So I've used them differently: <b>they tell me where the analysis is wrong.</b> That's approach validation, not demand proof — and I'd rather name the difference than blur it.</li>
+        <li>The engineers who feel this most are at SpaceX, Blue Origin and NASA. <b>ITAR means they legally cannot</b> put controlled hardware data into an outside tool run by a foreign person.</li>
+        <li>So I've used them differently: <b>they tell me where the analysis is wrong.</b> That's approach validation, not demand proof, and I'd rather name the difference than blur it.</li>
       </ul>
     </div>
     <div>
       <div class="colhead">What closes it</div>
       <ul class="tight">
-        <li><b>Unblocked AND gated.</b> Not every reachable team needs this — most don't, and slide 08 says so. The ten that do run real propellant through formal review gates and have already walked me through their process. <b>One has agreed to review output on a fluids component she owns</b> — that thread is live now. Target: three teams running it on their own hardware, and one document defended at a real review gate, <b>by end of Q4 2026.</b></li>
-        <li><b>Classification, not company name, decides who I can serve.</b> Components under EAR 9x515 or EAR99 are servable today, and the deemed-export route there reaches non-employees. Components on the USML need an authorization the customer has to sponsor — which is a commercial constraint, not a legal impossibility.</li>
-        <li><b>Architecture handles the data question.</b> Deployed inside the customer's own environment, the customer is the exporter of its own data and I'm not in the chain. Both agencies have said so. GroundControl, a YC company selling to this same buyer, took the FedRAMP version of that road.</li>
-        <li><b>What architecture doesn't fix is who's in the room.</b> Prime supplier certifications require a US-person representative on customer-facing technical work. That's the real gate, and a US-person cofounder is necessary for it — but not sufficient on its own, and I'd rather say that than pretend one hire clears it.</li>
+        <li><b>Unblocked AND gated.</b> Not every reachable team needs this. Most don't, and slide 08 says so. <b>The ten I've mapped so far are university programs</b> that run real propellant through formal review gates and have already walked me through their process. They have real hardware and near-zero budget, so they're where the first honest feedback comes from, not the first revenue. <b>One fluids lead agreed to review an output</b>, and I'm waiting on her read. The milestone: <b>three teams running it on their own hardware, and one document defended at a real review gate.</b></li>
+        <li><b>Classification, not company name, decides who I can serve.</b> Components classified EAR99 are servable today, and for 9x515 parts a BIS deemed-export license can cover a non-employee. Components on the USML need an authorization the customer has to sponsor, which is a commercial constraint, not a legal impossibility.</li>
+        <li><b>Architecture handles the data question.</b> Deployed inside the customer's own environment, the customer is the exporter of its own data and I'm not in the chain: both agencies treat whoever causes the release as the exporter. GroundControl, a YC company selling to this same buyer, took the FedRAMP version of that road.</li>
+        <li><b>What architecture doesn't fix is who's in the room.</b> Prime supplier certifications require a US-person representative on customer-facing technical work. That's the real gate, and a US-person cofounder is necessary for it but not sufficient on its own. I'd rather say that than pretend one hire clears it.</li>
       </ul>
     </div>
   </div>
@@ -454,46 +474,46 @@ ul.tight li b{color:var(--ink);font-weight:600}
   <h2 style="max-width:32ch">The boundary isn't company size. It's whether one person can still hold the whole system in their head.</h2>
   <div class="cols" style="margin-top:28px">
     <div>
-      <div class="colhead">Above the line — the buyer</div>
+      <div class="colhead">Above the line: the buyer</div>
       <ul class="tight">
         <li>Reliability, mission assurance, product assurance and quality engineers who <b>author and defend these documents.</b></li>
-        <li>Demand lives wherever <b>an outside body, a customer, or a standard</b> makes formal failure analysis mandatory — human-rating requirements, AS9100, customer qual gates.</li>
+        <li>Demand lives wherever <b>an outside body, a customer, or a standard</b> makes formal failure analysis mandatory: human-rating requirements, AS9100, customer qual gates.</li>
         <li>Teams running real propellant and real test stands, who already keep a structured risk list and use it to decide what gets tested.</li>
       </ul>
     </div>
     <div>
-      <div class="colhead flag">Below it — not the buyer, and I'll say so</div>
+      <div class="colhead flag">Below it: not the buyer, and I'll say so</div>
       <ul class="tight">
-        <li>“We were well aware of all the risks. All the teams are always in close contact… <b>filling in the matrix just felt like a formality.</b>”</li>
+        <li>“We were well aware of all the risks. Since all the teams are always in close contact… <b>filling in the matrix just felt like a formality.</b>”</li>
         <li>“Forcing it on us right now would <b>just be theater.</b>”</li>
-        <li>Six teams told me plainly they don't run formal FMEAs. <b>Knowing who doesn't need this is how I know who does.</b></li>
+        <li>At least six teams told me plainly they don't run formal FMEAs. <b>Knowing who doesn't need this is how I know who does.</b></li>
       </ul>
     </div>
   </div>
 </div></section>
 
 <!-- 09 COMPETITION + MONEY -->
-<section class="sec"><div class="wrap">
+<section class="sec market"><div class="wrap">
   <div class="dc"><span class="n">09</span><span>Faultline</span><span class="t">Competition &amp; market</span></div>
   <div class="cols">
     <div>
       <div class="colhead">What I'm really competing with</div>
       <ul class="tight">
-        <li><b>Excel plus a senior engineer's memory.</b> That's what almost every team actually uses. A vehicle systems safety engineer at Blue Origin put it plainly: <em>“in the industry today, there is no one way that is known as the correct way to do it. A lot of what is being used is trial and error.”</em></li>
-        <li><b>Relyence, Isograph, APIS IQ-FMEA</b> — real tools, but databases. Places to store an FMEA you already wrote.</li>
-        <li><b>Ansys medini, Siemens Polarion, PLATO</b> — serious safety-analysis suites, but built around automotive and IEC/ISO functional-safety workflows and sold top-down into large organisations.</li>
-        <li><b>SpaceGrade</b> — AI across the aerospace stack, FMEA as one item in a long feature list. They can add depth faster than I can add distribution — <b>which is why the wedge is depth in one workflow, not breadth.</b> A platform that treats FMEA as a checkbox produces output nobody signs, and the thing that makes it signable — anchored rubrics, an enforced floor, a proposed-versus-signed diff, a trace a review board accepts — is the whole product, not a feature.</li>
-        <li><b>The real threat: a customer's own team wiring an LLM to their Excel template over a weekend.</b> That produces modes. It doesn't produce anchored scoring, an enforced occurrence floor, a diff of what the model proposed versus what the engineer changed, or a trace that survives a review board. That gap is the product.</li>
-        <li><b>GroundControl</b> (YC) — AS9102 first-article inspection. Same buyer, opposite end of the lifecycle: proving a part was built to spec after it exists. I'm upstream, on the reasoning about what could fail.</li>
+        <li><b>Excel plus a senior engineer's memory.</b> That's what almost every team actually uses. A vehicle systems safety engineer at Blue Origin put it plainly: <em>“in the industry today, there is no one way that is known as the correct way to do it. A lot of what is being used is trial and error…”</em></li>
+        <li><b>Relyence, Isograph, APIS IQ-FMEA</b>: systems of record. Relyence's 2026 release added AI that drafts modes, effects and causes in the worksheet, so <b>generating rows is now table stakes.</b></li>
+        <li><b>Ansys medini, Siemens Polarion, PLATO</b>: serious safety-analysis suites, built around automotive and IEC/ISO functional-safety workflows and sold top-down into large organizations.</li>
+        <li><b>SpaceGrade</b>: AI across the aerospace stack, FMEA as one item in a long feature list. They can add depth faster than I can add distribution, <b>which is why the wedge is depth in one workflow, not breadth.</b> A platform that treats FMEA as a checkbox produces output nobody signs. What makes it signable (anchored rubrics, an enforced floor, a proposed-versus-signed diff, a trace a review board accepts) is the whole product, not a feature.</li>
+        <li><b>The real threat: a customer's own team wiring an LLM to their Excel template over a weekend.</b> That produces modes. It doesn't produce anchored scoring, an enforced occurrence floor, a proposed-versus-changed diff, or a trace that survives a review board. That gap is the product.</li>
+        <li><b>GroundControl</b> (YC): AS9102 first-article inspection. Same buyer, opposite end of the lifecycle: proving a part was built to spec after it exists. I'm upstream, on the reasoning about what could fail.</li>
       </ul>
     </div>
     <div>
       <div class="colhead">Money</div>
       <ul class="tight">
-        <li>Priced <b>per program or per review gate</b>, not per seat — reliability is a thin slice of headcount, but the budget sits with the program that can't fly without the document. Published reliability tools run roughly $5–10k per seat per year as a floor reference.</li>
-        <li>~10,000 AS9100-certified US sites plus ~9,000 US aerospace and defence establishments, each running <b>multiple gated programs per year.</b> Every human-rated or customer-qualified program is a recurring obligation, not a one-time seat.</li>
-        <li>Aerospace is the hardest version of a problem <b>legally mandated in much bigger industries:</b> AIAG-VDA across automotive, ISO 14971 for medical devices, plus energy and rail. Strictest first is the easy direction of travel.</li>
-        <li><b>What compounds, precisely.</b> Not cross-customer data — controlled data never leaves the boundary, so I won't claim a network effect I can't have. What compounds is the <b>rubric and failure-mode taxonomy</b> built from public standards and published mishap reports, plus <b>per-customer accumulation inside their own instance:</b> every accept, edit and reject makes their analysis library better for them. That's a switching cost, and it's the honest version.</li>
+        <li>Priced <b>per program or per review gate</b>, not per seat: reliability is a thin slice of headcount, but the budget sits with the program that can't fly without the document. Published reliability tools run roughly $5–10k per seat per year as a floor reference.</li>
+        <li>~10,000 AS9100-certified US sites plus ~9,000 US aerospace and defense establishments, each running <b>multiple gated programs per year.</b> Every human-rated or customer-qualified program is a recurring obligation, not a one-time seat.</li>
+        <li>Aerospace is the hardest version of a problem <b>standards and regulators require in much bigger industries:</b> AIAG-VDA across automotive, ISO 14971 for medical devices, plus energy and rail. Strictest first is the easy direction of travel.</li>
+        <li><b>What compounds, precisely.</b> Not cross-customer data: controlled data never leaves the boundary, so I won't claim a network effect I can't have. What compounds is the <b>rubric and failure-mode taxonomy</b> built from public standards and published mishap reports, plus <b>per-customer accumulation inside their own instance:</b> every accept, edit and reject makes their analysis library better for them. That's a switching cost, and it's the honest version.</li>
       </ul>
     </div>
   </div>
@@ -502,20 +522,20 @@ ul.tight li b{color:var(--ink);font-weight:600}
 <!-- 10 ASK -->
 <section class="sec dark"><div class="wrap">
   <div class="dc"><span class="n">10</span><span>Faultline</span><span class="t">Where I am · what I need</span></div>
-  <h2 style="max-width:32ch">Built solo in eight weeks. I'm seventeen, still in high school, and not going to university.</h2>
-  <p class="lede">Before this I spent a year taking NOVA-1, a two-stage fully reusable heavy-lift launch vehicle, from a blank page through a complete preliminary design review — about twenty documents across propulsion, structures, trajectory, GNC, avionics, recovery, thermal protection and cost — then ran an adversarial audit against my own work to find where I'd fudged the numbers. The failure analysis was the part that nearly stopped me. Faultline came out of that.</p>
+  <h2 style="max-width:32ch">Built solo in eight weeks. I'm seventeen and still in high school.</h2>
+  <p class="lede">Before this I spent a year taking a two-stage fully reusable heavy-lift launch vehicle from a blank page through a complete preliminary design review (about twenty documents across propulsion, structures, trajectory, GNC, avionics, recovery, thermal protection and cost), then ran an adversarial audit against my own work to find where I'd fudged the numbers. The failure analysis was the part that nearly stopped me. Faultline came out of that.</p>
   <div class="asks">
     <div class="ask">
       <div class="t">Who carries the liability</div>
-      <div class="d">If a drafted mode is missed and hardware is lost, <b>the engineer who signed it carries it</b> — same as today. Nothing exports unsigned. Every score is anchored to a published rubric, the occurrence floor is enforced in code so the model can't be optimistic, and the export keeps a diff of what was proposed against what was changed. <b>The audit trail is stronger than a spreadsheet's, not weaker.</b></div>
+      <div class="d">If a drafted mode is missed and hardware is lost, <b>the engineer who signed it carries it</b>, same as today. Every AI-drafted line stays marked as a draft until the engineer disposes of it, and the tool never signs: it records who did. Every score is anchored to a published rubric, the occurrence floor is enforced in code so the model can't be optimistic, and the export keeps a diff of what was proposed against what was changed. <b>The audit trail is stronger than a spreadsheet's, not weaker.</b></div>
     </div>
     <div class="ask">
-      <div class="t">Cofounder — status, not aspiration</div>
-      <div class="d">A <b>reliability or mission assurance engineer</b> who has authored and defended FMEAs in a real program. 30% reserved. Honest status: <b>no offer made and no candidate in process.</b> The 56 conversations have doubled as the filter, and three people have engaged deeply enough to be worth a real approach once there's a user.</div>
+      <div class="t">Cofounder: status, not aspiration</div>
+      <div class="d">A <b>reliability or mission assurance engineer</b> who has authored and defended FMEAs in a real program. 30% reserved. Honest status: <b>no offer made and no candidate in process.</b> The 73 conversations have doubled as the filter, and three people have engaged deeply enough to be worth a real approach once there's a user.</div>
     </div>
     <div class="ask">
       <div class="t">What I'm asking for</div>
-      <div class="d">Not money yet — <b>no entity, so I can't take it.</b> I'm asking for intros to <b>teams that own unclassified hardware</b> and are gated by a customer or standard. <b>Three teams running it on their own hardware, and one document defended at a review gate.</b> That's the milestone that changes this from a good analysis into a company, and it's what I'd raise against.</div>
+      <div class="d">Not money yet: <b>no entity, so I can't take it.</b> I'm asking for intros to <b>teams that own unclassified hardware</b> and are gated by a customer or standard. <b>Three teams running it on their own hardware, and one document defended at a review gate.</b> That's the milestone that changes this from a good analysis into a company, and it's what I'd raise against.</div>
     </div>
   </div>
   <div class="contact">
