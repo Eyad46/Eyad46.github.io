@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Faultline sample report</title>
+<meta name="description" content="A design FMEA drafted by Faultline from the public design description of the Space Shuttle orbiter's supercritical hydrogen tank.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F2F3F0;
+  --paper-2:#E6E8E3;
+  --ink:#12161A;
+  --ink-2:#3C444C;
+  --slate:#59636E;
+  --rule:#C9CEC8;
+  --flag:#C2410C;
+  --pad:clamp(16px,5vw,72px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:'Space Grotesk',system-ui,-apple-system,sans-serif;font-size:17px;line-height:1.55}
+.wrap{max-width:860px;margin:0 auto;padding:clamp(40px,7vw,88px) var(--pad)}
+.dc{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:13px;letter-spacing:.09em;text-transform:uppercase;color:var(--slate);padding-bottom:10px;border-bottom:1.5px solid currentColor;margin-bottom:32px}
+.dc .n{color:var(--ink);font-weight:600}
+.dc .t{margin-left:auto}
+h1{font-size:clamp(30px,5vw,46px);line-height:1.08;letter-spacing:-.02em;font-weight:600;margin-bottom:18px}
+.lede{font-size:clamp(18px,2.2vw,21px);color:var(--ink-2);margin-bottom:28px;max-width:44em}
+ul{list-style:none;margin:0 0 32px;border-top:1px solid var(--rule)}
+li{padding:12px 0 12px 22px;border-bottom:1px solid var(--rule);position:relative;color:var(--ink-2)}
+li::before{content:"";position:absolute;left:0;top:23px;width:10px;height:1.5px;background:var(--flag)}
+li b{color:var(--ink);font-weight:600}
+.btn{display:inline-block;background:var(--ink);color:var(--paper);text-decoration:none;font-weight:500;padding:14px 22px;font-size:17px}
+.btn:hover,.btn:focus-visible{background:var(--flag)}
+.meta{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--slate);margin-top:12px}
+.note{font-size:15px;color:var(--slate);margin-top:36px;padding-top:16px;border-top:1px solid var(--rule)}
+.note a{color:inherit;text-underline-offset:3px}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="dc"><span class="n">Faultline</span><span>Sample output</span><span class="t">October 30, 2026</span></div>
+  <h1>A design FMEA drafted by Faultline</h1>
+  <p class="lede">The supercritical hydrogen tank from the Space Shuttle orbiter's fuel cell system, drafted from its public design description. A 1988 independent NASA review analysed the same tank, which is how Faultline's accuracy was scored: 10 or 11 of that review's 14 failure modes fully matched in each of three runs.</p>
+  <ul>
+    <li><b>21 failure modes, 6 of them critical.</b> Every row is still waiting for the engineer's decision, so the report prints as a draft.</li>
+    <li><b>Every score cites its rubric anchor</b> with the reasoning written out. Where there is no test data, occurrence is held at a floor and marked, and high-risk rows without data print as provisional instead of critical.</li>
+    <li><b>48 open items</b> list what the engineer still has to confirm.</li>
+    <li><b>The self-review appendix</b> shows what the draft corrected in its own scores and which gaps it left open on purpose.</li>
+  </ul>
+  <a class="btn" href="samples/faultline-hydrogen-tank-dfmea-2026-10-30.pdf">Open the report</a>
+  <p class="meta">PDF · 21 pages · 1.2 MB</p>
+  <p class="note">The report is exactly as Faultline exported it, built only from public information. <a href="index.html">Back to the Faultline deck</a></p>
+</main>
+</body>
+</html>
