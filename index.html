@@ -294,9 +294,9 @@ ul.tight li b{color:var(--ink);font-weight:600}
   <p class="lede" style="margin-top:14px"><b>The wedge is the move from development to production.</b> While a team is still developing hardware, it builds, tests and breaks it. Formal failure analysis arrives when the team moves to production or qualification: a customer or standard starts requiring it, and the test data finally exists to score it. <b>The first users are teams at that crossing</b> that no export-control regime stops me from serving, including <b>suppliers whose customers require a process FMEA for new parts.</b></p>
 
   <div class="funnel" style="margin-top:clamp(26px,4vw,42px)">
-    <div class="fstep"><div class="n">80</div><div class="l">Technical conversations with people who build flight hardware</div></div>
-    <div class="fstep"><div class="n">21</div><div class="l">Companies incl. Blue Origin, SpaceX, NASA, Rocket Lab, Relativity</div></div>
-    <div class="fstep"><div class="n">10&ndash;11</div><div class="l">Of 14 failure modes matched on the Space Shuttle hydrogen tank, scored against a 1988 independent NASA review</div></div>
+    <div class="fstep"><div class="n">80</div><div class="l">Technical conversations with people who work on flight hardware</div></div>
+    <div class="fstep"><div class="n">21</div><div class="l">Aerospace employers of the people who replied, incl. Blue Origin, SpaceX, NASA, Rocket Lab, Relativity</div></div>
+    <div class="fstep"><div class="n">10&ndash;11</div><div class="l">Of 14 failure modes fully matched on the Space Shuttle hydrogen tank in every run, scored against a 1988 independent NASA review</div></div>
     <div class="fstep"><div class="n">6</div><div class="l">Reviewed the output in depth. Still zero users: the gap, named on 07</div></div>
   </div>
 </div>
@@ -307,7 +307,7 @@ ul.tight li b{color:var(--ink);font-weight:600}
   <div class="dc"><span class="n">02</span><span>Faultline</span><span class="t">The problem</span></div>
   <div class="cols lean">
     <div>
-      <p class="pull">“Figuring out what could break is actually the easy part. The real, painful work is almost always the paperwork, the traceability, and getting everyone to agree on it.”</p>
+      <p class="pull">“The real, painful work is almost always the paperwork, the traceability, and getting everyone to agree on it.”</p>
       <div class="attrib"><b>Safety &amp; Mission Assurance</b>Orion program · NASA · 15 years</div>
     </div>
     <div>
@@ -332,11 +332,11 @@ ul.tight li b{color:var(--ink);font-weight:600}
       <h2>The control structure is the product.</h2>
       <ul class="tight" style="margin-top:20px">
         <li>Describe a subsystem, or the process steps for a part. It drafts the failure modes, <b>each with the reasoning written out.</b></li>
-        <li>Every severity, occurrence and detection score is <b>anchored to a published rubric with a written justification.</b></li>
+        <li>Every severity, occurrence and detection score <b>cites its row in the scoring rubric printed in every report,</b> with the reasoning written out.</li>
         <li>The engineer accepts, edits or rejects <b>every row</b> and signs off at the review gate. Sign-off is blocked while any row is still pending.</li>
         <li>Every field in the export shows <b>who wrote its current text:</b> the AI draft, the AI's own correction, or the engineer.</li>
-        <li><b>Every claim records what it rests on.</b> Change a design input and exactly the claims that depended on it are flagged for review.</li>
-        <li>The occurrence floor is <b>enforced in code.</b> The model can't be optimistic about failure probability. Only the human can.</li>
+        <li><b>Every claim records what it rests on,</b> which is how the engineer checks a row. Change a design input and only the claims that depended on it are flagged: in the demo, one seal material change flagged 74 of 345 claims, and the other 271 stayed current.</li>
+        <li>Without occurrence data in the input, no failure is scored below a set floor, <b>enforced in code.</b> Only the engineer can go lower.</li>
       </ul>
       <p class="note">Output: a 43-column CSV and a review-ready PDF. <a href="faultline-sample.html" style="color:inherit;text-decoration:underline;text-underline-offset:3px">See a full sample report</a> (21 pages).</p>
     </div>
@@ -431,7 +431,7 @@ ul.tight li b{color:var(--ink);font-weight:600}
       <p class="lede" style="font-size:clamp(15px,1.5vw,17px)">He then specified the data model to fix it: design input → failure mechanism → derived requirement → verification activity → evidence, each relationship explicitly typed so a design change only invalidates the claims that depend on it. Version 2 is built on that model.</p>
     </div>
     <div>
-      <div class="colhead">Twenty-two people have the output. Six reviewed it properly.</div>
+      <div class="colhead">I've sent the output to 22 people in the field. Six reviewed it in depth.</div>
       <ul class="tight">
         <li><b>A test operations engineer</b> at a propulsion startup, previously BE-7 Test RE at Blue Origin. Proposed tying the modes into a fault tree with mission failure at the top, driving the requirements the vehicle is verified against. That is now the roadmap.</li>
         <li><b>A systems engineering student</b> who did MBSE knowledge management work at NASA Glenn. The architectural review above. Told me to prioritize provenance over everything else I was working on.</li>
@@ -461,9 +461,9 @@ ul.tight li b{color:var(--ink);font-weight:600}
     <div>
       <div class="colhead">What closes it</div>
       <ul class="tight">
-        <li><b>Unblocked AND gated.</b> Not every reachable team needs this. Most don't, and slide 08 says so. The target is <b>commercial teams and suppliers moving from development into production on hardware that isn't export-controlled.</b> In October, <b>nearly 1,000 cold emails</b> to US aerospace hardware companies and their founders got no yes. A free draft offered around a team's own upcoming test got the first one, from a university rocket team, for its December test. The milestone: <b>three teams running it on their own hardware, and one document defended at a real review gate.</b></li>
-        <li><b>Classification, not company name, decides who I can serve.</b> EAR99 hardware is servable today. Controlled hardware needs an authorization the customer sponsors, and deploying inside the customer's own environment keeps their data with them.</li>
-        <li><b>What that doesn't fix is who's in the room.</b> Prime supplier work needs a US person on customer-facing technical work. A US-person cofounder is necessary for that, though not sufficient on its own.</li>
+        <li><b>Unblocked AND gated.</b> Not every reachable team needs this. Most don't, and slide 08 says so. The target is <b>commercial teams and suppliers moving from development into production on hardware that isn't export-controlled.</b> On LinkedIn, a free draft offered around a team's own upcoming test got a yes from a university rocket team within half an hour, and its lead got the starting draft on Oct 31 for the team's December test. The milestone: <b>three teams running it on their own hardware, and one document defended at a real review gate.</b></li>
+        <li><b>Classification, not company name, decides who I can serve.</b> EAR99 hardware is servable today. Controlled hardware needs an authorization the customer sponsors. Faultline runs as one container in the customer's own environment, but drafting still calls Anthropic's API today; next, customers plug in their own approved model accounts, for example on AWS GovCloud, or local models.</li>
+        <li><b>What that doesn't fix is who's in the room.</b> Prime supplier work needs a US person on customer-facing technical work, and on controlled programs the data goes to a US engineer I'll hire, not to me. A US-person cofounder is necessary for that, though not sufficient on its own.</li>
       </ul>
     </div>
   </div>
@@ -488,7 +488,7 @@ ul.tight li b{color:var(--ink);font-weight:600}
       <ul class="tight">
         <li>“We were well aware of all the risks. Since all the teams are always in close contact… <b>filling in the matrix just felt like a formality.</b>”</li>
         <li>“Forcing it on us right now would <b>just be theater.</b>”</li>
-        <li>At least six teams told me plainly they don't run formal FMEAs. <b>Knowing who doesn't need this is how I know who does.</b></li>
+        <li>Seven teams told me plainly they don't run formal FMEAs. <b>Knowing who doesn't need this is how I know who does.</b></li>
       </ul>
     </div>
   </div>
@@ -502,20 +502,20 @@ ul.tight li b{color:var(--ink);font-weight:600}
       <div class="colhead">What I'm really competing with</div>
       <ul class="tight">
         <li><b>Excel plus a senior engineer's memory.</b> That's what almost every team actually uses. A vehicle systems safety engineer at Blue Origin put it plainly: <em>“in the industry today, there is no one way that is known as the correct way to do it. A lot of what is being used is trial and error…”</em></li>
-        <li><b>Relyence, ReliaSoft, Isograph, APIS IQ-FMEA</b>: systems of record. Relyence and ReliaSoft now use AI to suggest modes, effects and causes in the worksheet, and Omnex's assistant recommends severity and occurrence ratings, so <b>generating rows is now table stakes.</b></li>
+        <li><b>Relyence, ReliaSoft, Isograph, APIS IQ-FMEA</b>: systems of record. Relyence and ReliaSoft now use AI to suggest modes, effects and causes in the worksheet, and Omnex's assistant recommends severity and occurrence ratings, so <b>generating rows is now table stakes.</b> The scores are where models are weakest: SAE paper 2026-01-0106 measured 92% accuracy extracting components and signals from system diagrams, but 70 to 90% on severity, occurrence and detection scoring.</li>
         <li><b>Ansys medini, Siemens Polarion, PLATO</b>: serious safety-analysis suites, built around automotive and IEC/ISO functional-safety workflows and sold top-down into large organizations.</li>
-        <li><b>SpaceGrade</b>: AI across the aerospace stack, FMEA as one item in a long feature list. They can add depth faster than I can add distribution, <b>which is why the wedge is depth in one workflow, not breadth.</b> A platform that treats FMEA as a checkbox produces output nobody signs.</li>
-        <li><b>The real threat: a customer's own team wiring an LLM to their Excel template over a weekend.</b> That produces modes. It doesn't produce anchored scoring, an enforced occurrence floor, a proposed-versus-changed diff, or a trace that survives a review board. That gap is the product.</li>
+        <li><b>SpaceGrade</b>: an AI-native system of record for hardware, with FMEA listed in its engineering module. They can add depth faster than I can add distribution, <b>which is why the wedge is depth in one workflow, not breadth.</b></li>
+        <li><b>The real threat: a customer's own team wiring a model to their spreadsheet over a weekend.</b> That gets rows. It doesn't get the claim tracking, the score rules or the review gate, and in Faultline every analysis feeds the next draft.</li>
         <li><b>GroundControl</b> (YC): AS9102 first-article inspection. Same buyer, opposite end of the lifecycle: proving a part was built to spec after it exists. I'm upstream, on the reasoning about what could fail.</li>
       </ul>
     </div>
     <div>
       <div class="colhead">Money</div>
       <ul class="tight">
-        <li>Priced <b>per program or per review gate</b>, not per seat: reliability is a thin slice of headcount, but the budget sits with the program that can't fly without the document. Published reliability tools run roughly $5–10k per seat per year as a floor reference.</li>
-        <li>~10,000 AS9100-certified US sites, each running <b>gated programs every year.</b> At a planning price of $10,000 per program per year, one program per site is about <b>$100M a year in US aerospace alone.</b> Every human-rated or customer-qualified program is a recurring obligation, not a one-time seat.</li>
-        <li>Aerospace is the hardest version of a problem <b>standards and regulators require in much bigger industries:</b> AIAG-VDA across automotive, ISO 14971 for medical devices, plus energy and rail. Strictest first is the easy direction of travel.</li>
-        <li><b>What compounds, precisely.</b> Not cross-customer data: controlled data never leaves the customer's boundary, so I won't claim a network effect I can't have. What compounds is the <b>rubric and failure-mode taxonomy</b> built from public standards and published mishap reports, plus <b>each customer's own library inside their instance,</b> which improves with every accept, edit and reject. That's the honest switching cost.</li>
+        <li>Priced <b>per program or per review gate</b>, not per seat: reliability is a thin slice of headcount, but the budget sits with the program that can't fly without the document, and a faster FMEA ships parts sooner. Published reliability tools run roughly $5–10k per seat per year as a floor reference.</li>
+        <li>~10,000 AS9100-certified US sites, each running <b>gated programs every year.</b> At a planning price of $10,000 per program per year, if each bought one program a year, that's about <b>$100M a year in US aerospace alone.</b> Every human-rated or customer-qualified program is a recurring obligation, not a one-time seat.</li>
+        <li>Aerospace is the hardest version of a problem <b>standards and regulators require in much bigger industries:</b> AIAG-VDA across about 94,000 IATF 16949-certified automotive sites, ISO 14971 for medical devices, plus energy and rail. Strictest first is the easy direction of travel.</li>
+        <li><b>What compounds, precisely.</b> Not cross-customer data: controlled data has to stay inside the customer's boundary, so I won't claim a network effect I can't have. What compounds is the <b>rubric and failure-mode taxonomy</b> built from public standards and published mishap reports, plus <b>each customer's own library inside their instance,</b> which improves with every accept, edit and reject. That's the honest switching cost.</li>
       </ul>
     </div>
   </div>
