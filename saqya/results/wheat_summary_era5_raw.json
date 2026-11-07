@@ -27,14 +27,14 @@
     "loss_mm_mean": 178.4
   },
   "every_turn": {
-    "m3_per_feddan_mean": 3911.3,
-    "m3_per_feddan_min": 3911.3,
-    "m3_per_feddan_max": 3911.3,
-    "irrigations_mean_incl_sowing": 9.0,
-    "stress_days_mean": 5.11,
-    "runs_with_stress": 180,
-    "et_deficit_mm_mean": 5.69,
-    "loss_mm_mean": 567.92
+    "m3_per_feddan_mean": 4345.9,
+    "m3_per_feddan_min": 4345.9,
+    "m3_per_feddan_max": 4345.9,
+    "irrigations_mean_incl_sowing": 10.0,
+    "stress_days_mean": 0.47,
+    "runs_with_stress": 51,
+    "et_deficit_mm_mean": 0.22,
+    "loss_mm_mean": 603.55
   },
   "saving_vs_conventional": {
     "share_mean": 0.0595,

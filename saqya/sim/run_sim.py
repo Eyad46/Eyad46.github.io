@@ -6,17 +6,20 @@ Truth: daily ET0 and rain from the ERA5 reanalysis (Open-Meteo archive).
 What Saqya is allowed to know when it decides, at the start of each canal turn:
   * days 1 to 7: ET0 with a random error (one draw per decision, standard deviation 12%)
   * days 8 and later: the long-term average ET0 for that calendar day (other seasons only)
-  * rain: only the next 3 days; rain further ahead is ignored (so Saqya never skips a turn
-    because of a rain forecast that might not come)
+  * rain: the observed rain of the next 3 days (standing in for a 3-day rain forecast); rain further
+    ahead is ignored (so Saqya never skips a turn because of a rain forecast that might not come).
+    With no rain information at all the mean saving is 24.7% instead of 25.2%
 Canal rotation: 5 days on, 10 days off (the winter rotation described by FAO for the Delta).
 Conventional practice: 5 irrigations including the sowing irrigation, each about 435 m3/feddan
-(103.5 mm), the mean of the conventional treatment in a Sakha field trial (El-Hadidi et al., 2016:
-2,173 m3/feddan in 5 irrigations), given on the first canal day after days 30, 60, 90 and 120.
+(103.5 mm), the mean of the 5-irrigation treatment over three sowing dates of a Sakha field trial
+(El-Hadidi et al., 2016: 2,173 m3/feddan in 5 irrigations; 2,355 for 15 November sowing, so 2,173 is
+conservative). The trial reports amounts, not dates: we give them on the first canal day after days
+30, 60, 90 and 120, the timing with the fewest stress days for the fixed schedule among six tested.
 Both strategies use the same application efficiency (80%) and start at field capacity after the
 same sowing irrigation, so any difference comes only from timing and amount. Water stress is
 counted until 20 days before harvest (wheat is left to dry before harvest).
 
-ET0 bias correction: ERA5-based ET0 is 10 to 25% higher than station ET0 in the Delta. We scale it,
+ET0 bias correction: ERA5-based ET0 is about 14 to 30% higher than station ET0 in the Delta from November to April. We scale it,
 month by month, to station values computed with CROPWAT (FAO Penman-Monteith) for Sharkia in 2021
 (Table 1 in a 2023 paper in the Bulletin of the National Research Centre, doi 10.1186/s42269-023-01068-z).
 Summer station values for Sakha (Ibrahim et al., 2009) show the same size of difference.
@@ -43,7 +46,7 @@ SOW_MONTH_DAY = (11, 15)
 ON, OFF = 5, 10
 CONV_GROSS = 2172.96 / 5 / M3_PER_MM_FEDDAN        # 103.4 mm per irrigation
 CONV_TARGET_DAYS = (30, 60, 90, 120)
-EVERY_TURN_LAST_DAY = 130
+EVERY_TURN_LAST_DAY = 140   # same cut-off as the dry-down (160 - 20 days)
 EFFICIENCY = 0.80
 ERR_SD = 0.12
 RAIN_HORIZON = 3

@@ -1,7 +1,10 @@
 """Crop and soil parameters, all taken from FAO Irrigation and Drainage Paper 56 (Allen et al., 1998).
 
-Stage lengths: FAO-56 Table 11 (row chosen for an arid climate and the planting month used in Egypt).
-Crop coefficients (Kc ini, Kc mid, Kc end): FAO-56 Table 12 (single crop coefficient).
+Stage lengths: FAO-56 Table 11, rows for arid climates (wheat: the "Dec, Calif. Desert" row, used here for
+15 November sowing; maize: the June row). The Pakistan "Oct/Nov, arid" small-grains row (25/35/65/40)
+gives a 23% saving instead of 25% in the replay.
+Crop coefficients (Kc mid, Kc end): FAO-56 Table 12. Wheat Kc ini 0.4 follows FAO-56 Fig. 29 for large,
+infrequent surface wettings (Table 12 gives 0.3 for cereals; with 0.3 the replay saving is 28%).
 Rooting depth and depletion fraction p: FAO-56 Table 22. We use the smaller rooting depth of the
 range because FAO-56 says the smaller values may be used for irrigation scheduling, and many Delta
 fields have a shallow water table that limits rooting.

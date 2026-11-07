@@ -313,7 +313,7 @@
         ['Next canal turn', dayName(turn, 'en'), turn === st.todayDn ? 'starts today' : `in ${turn - st.todayDn} days`],
         ['Advice', actionTxt, plan.gross > 0 ? `${duration(60 * m3 / f.pump, 'en')} of pumping, ${fmtInt(m3)} m³` : (plan.action === 'skip' ? 'no pumping' : '')],
         ['Crop stage', `day ${das} of ${f.length}`, `Kc ${kcNow.toFixed(2)}, roots ${f.zr(das).toFixed(2)} m`],
-        ['Weather next 7 days', `${et7.toFixed(1)} mm/day`, `reference ET0${st.cal ? ', station-calibrated' : ''}`],
+        ['Weather next 7 days', `${et7.toFixed(1)} mm/day`, `reference ET0${st.cal ? ', scaled to station values' : ''}`],
       ];
       $('facts').innerHTML = facts.map(([k, v, s2]) => `<div class="fact"><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s2}</div></div>`).join('');
       const use = e.slice(0, Math.max(1, plan.n || rot.cycle)).reduce((a, x, i) => a + x * f.kc(das + i), 0);

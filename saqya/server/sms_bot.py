@@ -2,7 +2,8 @@
 
 handle(phone, text) returns the reply text. It can sit behind any SMS gateway webhook
 (the gateway posts the sender and the message, and sends back the reply). Profiles are kept in
-a small JSON file. Run this file to chat with the bot in a terminal.
+a small JSON file. Run this file to chat with the bot in a terminal. This is a demo: a real service
+would also push the advice on its own the day before each turn, instead of waiting to be asked.
 """
 from __future__ import annotations
 
@@ -112,13 +113,16 @@ def advice(p: dict, today: date, wx: dict | None = None) -> str:
     days = sorted(wx)
     tail = sum(wx[d][0] for d in days[-5:]) / 5
     get = lambda d: wx.get(d, (tail, 0.0))  # noqa: E731
-    # each "irrigated" message counts as one normal irrigation (about 435 m3 per feddan)
-    logged = {date.fromisoformat(x) for x in p.get("irrigations", [])}
+    # each "irrigated" message is logged with the amount Saqya last advised (or a normal irrigation if none)
+    logged = {}
+    for x in p.get("irrigations", []):
+        d_str, g = (x, 103.4) if isinstance(x, str) else (x["date"], x["gross_mm"])
+        logged[date.fromisoformat(d_str)] = g
     dr = 0.0
     for i in range(max(0, (today - sow).days)):  # rebuild the soil water account from the farmer's log
         d = sow + timedelta(days=i)
         e, r = get(d)
-        dr = step(fld, d, dr, e, r, 103.4 if d in logged else 0.0).dr_end
+        dr = step(fld, d, dr, e, r, logged.get(d, 0.0)).dr_end
     turn = rot.turn_start(today)
     if turn < today:
         turn = rot.next_turn_after(turn)
@@ -129,6 +133,7 @@ def advice(p: dict, today: date, wx: dict | None = None) -> str:
     e = [get(turn + timedelta(days=i))[0] for i in range(rot.cycle + 1)]
     r = [get(turn + timedelta(days=i))[1] for i in range(rot.cycle + 1)]
     plan = plan_turn(fld, rot, turn, dr, e, r)
+    p["last_advice"] = {"turn": turn.isoformat(), "gross_mm": round(plan.gross_mm, 2)}
     crop = AR_CROP[p["crop"]] if lang == "ar" else CROPS[p["crop"]].name_en.lower()
     m3 = plan.gross_mm * M3_PER_MM_FEDDAN * fld.area_feddan
     mins = 60 * m3 / fld.pump_m3h
@@ -177,12 +182,16 @@ def handle(phone: str, text: str, today: date | None = None, wx: dict | None = N
         p.update(pump=f"{size}in", step="ready", irrigations=[])
     else:
         if t in ("رويت", "irrigated"):
-            p.setdefault("irrigations", []).append(today.isoformat())
+            g = (p.get("last_advice") or {}).get("gross_mm") or 103.4
+            p.setdefault("irrigations", []).append({"date": today.isoformat(), "gross_mm": g})
             db[phone] = p
             save(db)
             return T["logged"][lang]
         if t in ("نصيحة", "advice"):
-            return advice(p, today, wx)
+            reply = advice(p, today, wx)
+            db[phone] = p
+            save(db)
+            return reply
         return T["done"][lang]
     db[phone] = p
     save(db)

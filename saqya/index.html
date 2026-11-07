@@ -125,7 +125,7 @@ footer{max-width:1360px;margin:0 auto;padding:16px var(--pad) 40px;border-top:1p
       <div><label class="lbl" for="today" id="todayLbl">Replay as if today is</label><input id="today" type="date"></div>
       <div><label class="lbl" for="lang">SMS language</label><select id="lang"><option value="ar">Arabic</option><option value="en">English</option></select></div>
     </div>
-    <label class="chk"><input id="cal" type="checkbox" checked> <span>Calibrate forecast ET0 to Delta weather stations (recommended)</span></label>
+    <label class="chk"><input id="cal" type="checkbox" checked> <span>Scale ET0 month by month to station values (Sharkia, 2021; recommended)</span></label>
     <button class="go" id="go" type="button">Send me the advice</button>
     <p class="status" id="status"></p>
   </section>
@@ -161,7 +161,7 @@ footer{max-width:1360px;margin:0 auto;padding:16px var(--pad) 40px;border-top:1p
 <footer>
   Saqya is a student project by Eyad Selim (Cairo) for the Xylem Global Student Innovation Challenge 2026, Water Quantity track.
   Weather data: <a href="https://open-meteo.com/">Open-Meteo</a> (CC BY 4.0): forecast models for coming days, ERA5 reanalysis for past days.
-  Method: FAO Irrigation and Drainage Paper 56 (Allen et al., 1998). In replay mode Saqya sees the real weather of the next days, so it shows the advice it would give with a perfect forecast.
+  Method: FAO Irrigation and Drainage Paper 56 (Allen et al., 1998). In replay mode Saqya sees the real weather of the next days, so it shows the advice it would give with a perfect forecast. The soil below the young roots is assumed to start at field capacity after the sowing irrigation.
   <a href="https://github.com/Eyad46/Eyad46.github.io/tree/main/saqya">Source code</a>.
 </footer>
 <div class="tip" id="tip"></div>

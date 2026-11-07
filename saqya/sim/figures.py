@@ -132,16 +132,16 @@ def fig_bars(res_dir: Path, out: Path) -> None:
         ax.text(max(v["m3_per_feddan_mean"], v["m3_per_feddan_max"]) + 60, y + 0.08,
                 f"{v['m3_per_feddan_mean']:,.0f} m³", va="center", fontsize=14, color=INK, fontweight="bold")
         ax.text(max(v["m3_per_feddan_mean"], v["m3_per_feddan_max"]) + 60, y - 0.2,
-                f"{v['stress_days_mean']:.1f} stress days on average", va="center", fontsize=11, color=MUTED)
+                f"crop water shortfall: {v['et_deficit_mm_mean']:.1f} mm", va="center", fontsize=11, color=MUTED)
         ax.text(-60, y, lab, ha="right", va="center", fontsize=13, color=INK)
     ax.set_yticks([])
-    ax.set_xlim(0, 5000)
+    ax.set_xlim(0, 5400)
     ax.set_xlabel("water per feddan per wheat season (m³), sowing irrigation included")
     ax.grid(axis="x", color=GRID, lw=0.8, zorder=0)
     ax.spines["left"].set_visible(False)
     sav = s["saving_vs_conventional"]
     ax.set_title(f"Saqya used {100 * sav['share_mean']:.0f}% less water than the conventional schedule\n"
-                 "mean of 180 simulated seasons (6 Delta sites x 6 winters x 5 rotation timings); whiskers: lowest to highest season",
+                 "mean of 180 cases (36 real site-seasons x 5 canal timings); whiskers: lowest to highest case",
                  loc="left", fontsize=12.5, color=INK)
     fig.tight_layout()
     fig.subplots_adjust(left=0.2)
@@ -172,7 +172,7 @@ def fig_sites(res_dir: Path, out: Path) -> None:
         ax.text(-1.5, y, names[k], ha="right", va="center", fontsize=12.5, color=INK)
     ax.set_yticks([])
     ax.set_xlim(0, 60)
-    ax.set_xlabel("water saved compared with the conventional schedule (%)  |  each dot = one simulated season")
+    ax.set_xlabel("water saved compared with the conventional schedule (%)  |  each dot = one case (season and canal timing)")
     ax.grid(axis="x", color=GRID, lw=0.8, zorder=0)
     ax.spines["left"].set_visible(False)
     fig.tight_layout()
