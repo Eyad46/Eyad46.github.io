@@ -77,7 +77,15 @@
     } finally { clearTimeout(timer); }
   }
   let usedCache = false;
+  const wxCache = new Map();
   async function fetchWeather(lat, lon, startDn, endDn, todayDn, live, calibrate) {
+    const key = [lat, lon, startDn, endDn, todayDn, live, calibrate].join('|');
+    if (wxCache.has(key)) return new Map(wxCache.get(key));
+    const map = await fetchWeatherUncached(lat, lon, startDn, endDn, todayDn, live, calibrate);
+    wxCache.set(key, new Map(map));
+    return map;
+  }
+  async function fetchWeatherUncached(lat, lon, startDn, endDn, todayDn, live, calibrate) {
     const map = new Map();
     const put = (j, forecastFrom) => {
       const t = j.daily.time, e = j.daily.et0_fao_evapotranspiration, p = j.daily.precipitation_sum;
