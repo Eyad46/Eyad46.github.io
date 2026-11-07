@@ -1,0 +1,101 @@
+{
+  "variant": "corrected",
+  "runs": 180,
+  "sites": 6,
+  "seasons": 6,
+  "rotation": "5 on / 10 off",
+  "efficiency": 0.8,
+  "conventional_gross_per_irrigation_mm": 103.45,
+  "saqya": {
+    "m3_per_feddan_mean": 1624.9,
+    "m3_per_feddan_min": 1064.7,
+    "m3_per_feddan_max": 1956.3,
+    "irrigations_mean_incl_sowing": 6.08,
+    "stress_days_mean": 0.08,
+    "runs_with_stress": 11,
+    "et_deficit_mm_mean": 0.02,
+    "loss_mm_mean": 58.39
+  },
+  "conventional": {
+    "m3_per_feddan_mean": 2173.0,
+    "m3_per_feddan_min": 2173.0,
+    "m3_per_feddan_max": 2173.0,
+    "irrigations_mean_incl_sowing": 5.0,
+    "stress_days_mean": 3.81,
+    "runs_with_stress": 110,
+    "et_deficit_mm_mean": 2.57,
+    "loss_mm_mean": 217.36
+  },
+  "every_turn": {
+    "m3_per_feddan_mean": 3911.3,
+    "m3_per_feddan_min": 3911.3,
+    "m3_per_feddan_max": 3911.3,
+    "irrigations_mean_incl_sowing": 9.0,
+    "stress_days_mean": 1.1,
+    "runs_with_stress": 77,
+    "et_deficit_mm_mean": 0.73,
+    "loss_mm_mean": 627.76
+  },
+  "saving_vs_conventional": {
+    "share_mean": 0.2522,
+    "share_min": 0.0997,
+    "share_max": 0.51,
+    "share_median": 0.2419,
+    "m3_per_feddan_mean": 548.0,
+    "runs_saqya_uses_less": 180
+  },
+  "etc_mm_mean": 394.6,
+  "rain_mm_mean": 49.8,
+  "saqya_skips_mean": 4.92,
+  "saqya_full_mean": 0.02,
+  "by_site": {
+    "damanhour_beheira": {
+      "saving_share_mean": 0.3588,
+      "saqya_m3": 1393.2,
+      "conventional_m3": 2173.0,
+      "saqya_stress_days": 0.07,
+      "conventional_stress_days": 2.33,
+      "rain_mm": 75.1
+    },
+    "mansoura_dakahlia": {
+      "saving_share_mean": 0.2572,
+      "saqya_m3": 1614.1,
+      "conventional_m3": 2173.0,
+      "saqya_stress_days": 0.07,
+      "conventional_stress_days": 2.83,
+      "rain_mm": 46.5
+    },
+    "sakha_kafr_el_sheikh": {
+      "saving_share_mean": 0.3118,
+      "saqya_m3": 1495.5,
+      "conventional_m3": 2173.0,
+      "saqya_stress_days": 0.07,
+      "conventional_stress_days": 2.17,
+      "rain_mm": 60.9
+    },
+    "shibin_menoufia": {
+      "saving_share_mean": 0.182,
+      "saqya_m3": 1777.4,
+      "conventional_m3": 2173.0,
+      "saqya_stress_days": 0.23,
+      "conventional_stress_days": 6.0,
+      "rain_mm": 35.1
+    },
+    "tanta_gharbia": {
+      "saving_share_mean": 0.2115,
+      "saqya_m3": 1713.3,
+      "conventional_m3": 2173.0,
+      "saqya_stress_days": 0.0,
+      "conventional_stress_days": 4.33,
+      "rain_mm": 40.3
+    },
+    "zagazig_sharqia": {
+      "saving_share_mean": 0.1918,
+      "saqya_m3": 1756.1,
+      "conventional_m3": 2173.0,
+      "saqya_stress_days": 0.07,
+      "conventional_stress_days": 5.17,
+      "rain_mm": 40.9
+    }
+  }
+}

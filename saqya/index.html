@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Saqya: irrigation advice by text message</title>
+<meta name="author" content="Eyad Selim">
+<meta name="description" content="Saqya tells Nile Delta farmers, by SMS, whether to irrigate on their canal turn and for how long, using free weather forecasts and the FAO-56 method.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f6f3ea; --card:#fffdf7; --ink:#14212b; --ink-2:#44525e; --muted:#6b7680; --rule:#ddd6c6;
+  --nile:#0d4f73; --nile-2:#2a78d6; --band:#dbe9f6; --silt:#8a5a2b; --wheat:#c98f1d; --stress:#b42318;
+  --bubble-in:#ffffff; --bubble-out:#dcf3e3; --phone:#101418;
+  --pad:clamp(16px,3.4vw,36px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:15.5px;line-height:1.5}
+a{color:var(--nile)}
+header{padding:22px var(--pad) 10px;display:flex;flex-wrap:wrap;gap:14px 28px;align-items:flex-end;justify-content:space-between;max-width:1360px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:14px}
+.brand svg{flex:none}
+.brand h1{font-family:'Fraunces',serif;font-weight:650;font-size:clamp(30px,4vw,44px);letter-spacing:-.01em;line-height:1}
+.brand h1 span{font-family:'IBM Plex Sans Arabic',sans-serif;font-weight:600;color:var(--silt);font-size:.72em;margin-left:10px}
+.tag{color:var(--ink-2);font-size:clamp(15px,1.6vw,18px);max-width:560px}
+.modes{display:flex;border:1px solid var(--rule);border-radius:999px;overflow:hidden;background:var(--card)}
+.modes button{border:0;background:none;padding:9px 16px;font:inherit;font-weight:500;color:var(--ink-2);cursor:pointer}
+.modes button.on{background:var(--nile);color:#fff}
+main{display:grid;grid-template-columns:minmax(260px,330px) minmax(300px,360px) minmax(0,1fr);gap:22px;padding:14px var(--pad) 28px;max-width:1360px;margin:0 auto;align-items:start}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:18px}
+.card h2{font-family:'Fraunces',serif;font-weight:500;font-size:20px;margin-bottom:10px}
+.lbl{display:block;font-size:12.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:12px 0 4px}
+select,input{width:100%;font:inherit;padding:8px 10px;border:1px solid var(--rule);border-radius:9px;background:#fff;color:var(--ink)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:8px}
+.hint{font-size:12.5px;color:var(--muted);margin-top:4px}
+.chk{display:flex;gap:8px;align-items:flex-start;margin-top:12px;font-size:13.5px;color:var(--ink-2)}
+.chk input{width:auto;margin-top:3px}
+.go{margin-top:16px;width:100%;border:0;border-radius:10px;padding:12px;font:inherit;font-weight:600;background:var(--nile);color:#fff;cursor:pointer}
+.go:disabled{opacity:.6;cursor:wait}
+/* phone */
+.phone{background:var(--phone);border-radius:38px;padding:12px;box-shadow:0 18px 40px rgba(20,33,43,.18)}
+.screen{background:#ece5d8;border-radius:28px;overflow:hidden;display:flex;flex-direction:column;height:min(78vh,720px)}
+.bar{background:#1f2c34;color:#fff;padding:14px 16px 12px;display:flex;align-items:center;gap:10px}
+.bar .av{width:34px;height:34px;border-radius:50%;background:var(--wheat);display:grid;place-items:center;font-family:'IBM Plex Sans Arabic';font-weight:600}
+.bar b{display:block;font-size:15px}.bar small{color:#b9c4cb;font-size:12px}
+.thread{flex:1;overflow-y:auto;padding:14px 12px 18px;display:flex;flex-direction:column;gap:8px}
+.msg{max-width:86%;padding:8px 11px 6px;border-radius:12px;font-size:14.5px;box-shadow:0 1px 1px rgba(0,0,0,.08);white-space:pre-line}
+.msg.in{background:var(--bubble-in);align-self:flex-start;border-top-left-radius:4px}
+.msg.out{background:var(--bubble-out);align-self:flex-end;border-top-right-radius:4px}
+.msg[dir=rtl]{font-family:'IBM Plex Sans Arabic',sans-serif;font-size:15.5px;line-height:1.6;text-align:right}
+.msg .tr{display:block;margin-top:5px;padding-top:5px;border-top:1px dashed #d8d2c5;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;color:var(--ink-2);direction:ltr;text-align:left;line-height:1.45}
+.msg .meta{display:block;text-align:right;font-size:11px;color:#8a949b;margin-top:2px;direction:ltr}
+.msg.key{border:2px solid var(--wheat)}
+.day{align-self:center;background:#d6eaf7;color:#33505f;font-size:12px;padding:3px 10px;border-radius:8px;margin:6px 0}
+/* behind */
+.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0 4px}
+.fact{border:1px solid var(--rule);border-radius:10px;padding:10px 12px;background:#fff}
+.fact .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.fact .v{font-size:19px;font-weight:600;margin-top:2px}
+.fact .s{font-size:12.5px;color:var(--ink-2)}
+.why{margin-top:12px;font-size:14.5px;color:var(--ink-2)}
+#chart{width:100%;height:auto;display:block;margin-top:8px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--ink-2);margin-top:6px}
+.legend i{display:inline-block;width:18px;height:0;border-top:2.5px solid;vertical-align:middle;margin-right:6px}
+.legend i.band{height:10px;border:0;background:var(--band)}
+.tip{position:fixed;pointer-events:none;background:#14212b;color:#fff;font-size:12.5px;padding:7px 9px;border-radius:7px;opacity:0;transition:opacity .1s;z-index:9;line-height:1.45}
+.status{font-size:13px;color:var(--muted);margin-top:8px;min-height:1.2em}
+section.how{max-width:1360px;margin:0 auto;padding:6px var(--pad) 26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+section.how h3{font-family:'Fraunces',serif;font-weight:500;font-size:18px;margin-bottom:6px}
+section.how p{font-size:14.5px;color:var(--ink-2)}
+footer{max-width:1360px;margin:0 auto;padding:16px var(--pad) 40px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+@media (max-width:1100px){main{grid-template-columns:minmax(260px,1fr) minmax(300px,380px)}.behind{grid-column:1/-1}}
+@media (max-width:720px){main{grid-template-columns:1fr}.phone{max-width:400px;margin:0 auto;width:100%}.screen{height:620px}header{align-items:flex-start}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <svg width="52" height="52" viewBox="0 0 52 52" aria-hidden="true">
+      <circle cx="26" cy="26" r="24" fill="#0d4f73"/>
+      <g fill="none" stroke="#f6f3ea" stroke-width="2.2" stroke-linecap="round">
+        <circle cx="26" cy="26" r="13"/>
+        <path d="M26 13v26M13 26h26M16.8 16.8l18.4 18.4M35.2 16.8L16.8 35.2"/>
+      </g>
+      <path d="M10 40c5-3 9-3 14 0s9 3 14 0" stroke="#c98f1d" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+    </svg>
+    <div>
+      <h1>Saqya<span>ساقية</span></h1>
+      <p class="tag">The right amount of water, on your canal's schedule, in a text message.</p>
+    </div>
+  </div>
+  <div class="modes" role="tablist" aria-label="Mode">
+    <button id="mReplay" class="on" type="button">Season replay</button>
+    <button id="mLive" type="button">Live forecast</button>
+  </div>
+</header>
+
+<main>
+  <section class="card setup" aria-label="Farmer profile">
+    <h2>The farmer</h2>
+    <p class="hint">Everything Saqya needs is collected in a short SMS sign-up. Change anything and press the button.</p>
+    <label class="lbl" for="loc">Village / district</label>
+    <select id="loc"></select>
+    <div class="row">
+      <div><label class="lbl" for="crop">Crop</label><select id="crop"></select></div>
+      <div><label class="lbl" for="sow">Sown on</label><input id="sow" type="date"></div>
+    </div>
+    <div class="row" style="grid-template-columns:.8fr 1.2fr">
+      <div><label class="lbl" for="area">Field (feddan)</label><input id="area" type="number" min="0.1" step="0.25" value="1.5"></div>
+      <div><label class="lbl" for="pump">Pump</label><select id="pump"></select></div>
+    </div>
+    <label class="lbl" for="soil">Soil</label>
+    <select id="soil"></select>
+    <label class="lbl">Canal rotation: days on, days off, a turn started on</label>
+    <div class="row3">
+      <input id="on" type="number" min="1" max="10" value="5" aria-label="days with water">
+      <input id="off" type="number" min="1" max="20" value="10" aria-label="days without water">
+      <input id="anchor" type="date" aria-label="date a turn started">
+    </div>
+    <div class="row">
+      <div><label class="lbl" for="today" id="todayLbl">Replay as if today is</label><input id="today" type="date"></div>
+      <div><label class="lbl" for="lang">SMS language</label><select id="lang"><option value="ar">Arabic</option><option value="en">English</option></select></div>
+    </div>
+    <label class="chk"><input id="cal" type="checkbox" checked> <span>Calibrate forecast ET0 to Delta weather stations (recommended)</span></label>
+    <button class="go" id="go" type="button">Send me the advice</button>
+    <p class="status" id="status"></p>
+  </section>
+
+  <section class="phone" aria-label="SMS conversation">
+    <div class="screen">
+      <div class="bar"><div class="av">س</div><div><b>Saqya</b><small>SMS, works on any phone</small></div></div>
+      <div class="thread" id="thread"></div>
+    </div>
+  </section>
+
+  <section class="card behind" aria-label="Behind the message">
+    <h2>Behind the message</h2>
+    <div class="facts" id="facts"></div>
+    <svg id="chart" viewBox="0 0 640 330" role="img" aria-label="Water in the root zone over the season"></svg>
+    <div class="legend">
+      <span><i class="band"></i>canal turn (water in the canal)</span>
+      <span><i style="border-color:#2a78d6"></i>water in the root zone</span>
+      <span><i style="border-color:#2a78d6;border-top-style:dashed"></i>next days, following the advice</span>
+      <span><i style="border-color:#9aa3aa;border-top-style:dashed"></i>if the farmer skips</span>
+      <span><i style="border-color:#b42318;border-top-style:dashed"></i>stress line</span>
+    </div>
+    <p class="why" id="why"></p>
+  </section>
+</main>
+
+<section class="how">
+  <div><h3>1. Weather, not guesswork</h3><p>Every day Saqya pulls the free 16-day forecast for the farmer's village and computes how much water the crop will use (FAO-56 Penman-Monteith reference evapotranspiration times the crop coefficient for its growth stage).</p></div>
+  <div><h3>2. A soil water account</h3><p>It keeps a running balance of the water left in the root zone, like a bank account: rain and irrigation are deposits, crop water use is the withdrawal, and the red line is the minimum balance before the crop suffers.</p></div>
+  <div><h3>3. Planned around the canal</h3><p>In the old lands water only comes on the canal's turn. Before each turn Saqya asks one question: what is the least water that keeps this crop above the red line until the next turn? Then it texts the answer as pump time.</p></div>
+</section>
+
+<footer>
+  Saqya is a student project by Eyad Selim (Cairo) for the Xylem Global Student Innovation Challenge 2026, Water Quantity track.
+  Weather data: <a href="https://open-meteo.com/">Open-Meteo</a> (CC BY 4.0): forecast models for coming days, ERA5 reanalysis for past days.
+  Method: FAO Irrigation and Drainage Paper 56 (Allen et al., 1998). In replay mode Saqya sees the real weather of the next days, so it shows the advice it would give with a perfect forecast.
+  <a href="https://github.com/Eyad46/Eyad46.github.io/tree/main/saqya">Source code</a>.
+</footer>
+<div class="tip" id="tip"></div>
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
