@@ -68,10 +68,15 @@
 
   // ---------- weather ----------
   async function getJSON(url) {
-    const r = await fetch(url);
-    if (!r.ok) throw new Error('weather service ' + r.status);
-    return r.json();
+    const ctl = new AbortController();
+    const timer = setTimeout(() => ctl.abort(), 15000);
+    try {
+      const r = await fetch(url, { signal: ctl.signal });
+      if (!r.ok) throw new Error('weather service ' + r.status);
+      return await r.json();
+    } finally { clearTimeout(timer); }
   }
+  let usedCache = false;
   async function fetchWeather(lat, lon, startDn, endDn, todayDn, live, calibrate) {
     const map = new Map();
     const put = (j, forecastFrom) => {
@@ -85,7 +90,15 @@
     };
     const q = `latitude=${lat}&longitude=${lon}&daily=et0_fao_evapotranspiration,precipitation_sum&timezone=Africa%2FCairo`;
     if (!live) {
-      put(await getJSON(`https://archive-api.open-meteo.com/v1/archive?${q}&start_date=${S.iso(startDn)}&end_date=${S.iso(endDn)}`));
+      try {
+        put(await getJSON(`https://archive-api.open-meteo.com/v1/archive?${q}&start_date=${S.iso(startDn)}&end_date=${S.iso(endDn)}`));
+      } catch (err) {
+        // weather service unreachable: fall back to the saved 2025/26 season for Sakha if it covers the request
+        const near = Math.abs(lat - 31.10) < 0.05 && Math.abs(lon - 30.94) < 0.05;
+        if (!near || startDn < S.dnum('2025-11-01') || endDn > S.dnum('2026-06-30')) throw err;
+        put(await (await fetch('sakha_2025_26.json')).json());
+        usedCache = true;
+      }
     } else {
       if (todayDn - startDn > 92) {
         put(await getJSON(`https://archive-api.open-meteo.com/v1/archive?${q}&start_date=${S.iso(startDn)}&end_date=${S.iso(todayDn - 93)}`));
@@ -311,7 +324,8 @@
       if (estimated > 0 && mode === 'live') why += ` Days beyond the 16-day forecast are estimated from its last days.`;
       $('why').textContent = why;
       drawChart(f, rot, hist, plan, st.todayDn, futWith, futWithout);
-      $('status').textContent = `Weather for ${st.place[0]} loaded (${mode === 'live' ? 'live forecast' : 'replay of real weather'}).`;
+      $('status').textContent = `Weather for ${st.place[0]} loaded (${mode === 'live' ? 'live forecast' : (usedCache ? 'replay, saved copy of the real weather' : 'replay of real weather')}).`;
+      usedCache = false;
     } catch (err) {
       $('status').textContent = err.message;
     } finally {
